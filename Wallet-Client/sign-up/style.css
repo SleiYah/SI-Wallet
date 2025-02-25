@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(
+    171deg,
+    rgb(26, 28, 41) 50%,
+    rgba(7, 65, 69, 1) 100%
+  );
+  color: #f9f9f9;
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+}
+.sign-up-box{
+  align-items: center;
+  justify-content: center;
+    display: flex;
+    flex-direction: row;
+
+
+}
+
+.sign-up-input-box {
+  font-size: 19px;
+  padding: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+
+}
+
+
+
+.sign-up-input-box input {
+  background-color: #303245;
+  border-radius: 2px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  font-size:1em;
+  outline: 0;
+  padding: 0.75em 1em;
+}
+
+
+@media (max-width: 764px) {
+
+
+  .sign-up-input-box {
+    font-size: 12px;
+  }
+
+ 
+}
+

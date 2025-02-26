@@ -8,21 +8,37 @@
   /* General Styles */
   body {
     font-family: Arial, sans-serif;
-    background: #f9f9f9;
-    color: #333;
+    background: linear-gradient(
+      171deg,
+      rgb(26, 28, 41) 50%,
+      rgba(7, 65, 69, 1) 100%
+    );
+    color: #f9f9f9;
     text-align: center;
   }
   
   /* Header */
   header {
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: linear-gradient(
+     135deg,
+      #074145 ,
+      rgb(26, 28, 41) 
+    );    
     color: white;
     text-align: center;
-    padding: 40px 20px;
+    padding: 0 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 10vh;
+  
+}
+header h1 {
+    font-weight: 600;
+    background-image: linear-gradient(to left, #c0c0c0, rgb(79, 79, 79));
+    color: transparent;
+    background-clip: text;
   }
   
   nav ul {
@@ -39,22 +55,20 @@
   }
   
   .signup-btn {
-    font-size: 20px;
-    background-color: #f9f9f9;
-    color: black;
+    font-size: 15px;
+    background-color: #074145;
+    color: #ffffff;
     border-radius: 100px;
   }
   
   .login-btn {
-    font-size: 20px;
-    color: #f9f9f9;
+    font-size: 15px;
+    color: #a4a4a4;
     background-color: black;
     border-radius: 100px;
   }
   
-  .actions {
-  }
-  
+ 
   .actions p {
     margin: 0.5em 0.8em;
     font-weight: bold;
@@ -68,16 +82,16 @@
   }
   
   nav ul li a:hover {
-    color: #ffdd57;
+    color: #57ff65;
   }
   
   /* Sections */
   section {
     text-align: start;
-    max-width: 1100px;
+    max-width: 1300px;
     margin: 40px auto;
     padding: 40px;
-    background: white;
+    background: rgb(25, 24, 24);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
@@ -94,7 +108,26 @@
   .services {
     text-align: start;
   }
+.services-box{
+  font-size: 18px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:space-evenly;
+ 
+
+}
+.services-box > div{
   
+  background-color: #0f8189;
+  max-width: 13em;
+  margin: 0.5em;
+  padding: 1em;
+}
+.services-box > div > p{
+  line-height: 1.6em;
+  font-size: 1em;
+}
   .services ul {
     list-style: none;
     padding: 0;
@@ -172,7 +205,7 @@
   
   /* Testimonials */
   .testimonials {
-    background: #f4f4f4;
+  
     padding: 40px;
     border-radius: 10px;
   }
@@ -202,7 +235,6 @@
   
   button {
     padding: 10px;
-    background: #2575fc;
     color: white;
     border: none;
     cursor: pointer;
@@ -211,29 +243,97 @@
   }
   
   button:hover {
-    background: #6a11cb;
+    background: #0f8189;
   }
-  
+
+  /* footer */
+  .footer{
+    background: linear-gradient(
+       135deg,
+        rgb(0, 2, 2) ,
+        rgb(26, 28, 41) 
+      );   
+    padding:30px 0px;
+    font-family: 'Play', sans-serif;
+    text-align:center;
+    }
+    
+    .footer .row{
+    width:100%;
+    margin:1% 0%;
+    padding:0.6% 0%;
+    color:gray;
+    font-size:0.8em;
+    }
+    
+    .footer .row a{
+    text-decoration:none;
+    color:gray;
+    transition:0.5s;
+    }
+    
+    .footer .row a:hover{
+    color:#fff;
+    }
+    
+    .footer .row ul{
+    width:100%;
+    }
+    
+    .footer .row ul li{
+    display:inline-block;
+    margin:0px 30px;
+    }
+    
+    .footer .row a i{
+    font-size:2em;
+    margin:0% 1%;
+    }
   @media (max-width: 1200px) {
     /* Header */
     nav ul {
       display: none;
     }
+
+  }
+  @media (max-width: 1000x) {
+    .services-box{
+      flex-wrap: wrap;
+    
+    }
   }
   
   @media (max-width: 764px) {
-    header h1 {
-      font-size: 20px;
-    }
+
+    /* footer */
+    .footer{
+      text-align:center;
+      padding:5%;
+      }
+      .footer .row ul li{
+      display:block;
+      margin:10px 0px;
+      text-align:center;
+      
+      }
+      .footer .row a i{
+      margin:0% 3%;
+      }
+
+      .services-box{
+        flex-wrap: wrap;
+      
+      }
+      }
+   
   
-    .login-btn,
-    .signup-btn {
-      font-size: 12px;
-    }
   
-    .login-btn,
-    .signup-btn {
-      font-size: 12px;
-    }
-  }
-  
+      @media (max-width: 640px) {
+        .sign-up-input-box {
+          font-size: 10px;
+        }
+        .login-btn, .signup-btn {
+          font-size: 10px;
+          
+        }
+      }

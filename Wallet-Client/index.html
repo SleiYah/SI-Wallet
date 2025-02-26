@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Non-Responsive Website</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/pages/styles.css" />
+    <link rel="stylesheet" href="css/base/base.css" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   </head>
@@ -33,25 +35,33 @@
       </div>
     </header>
 
-    <!-- <section id="hero" class="hero">
-        <h2>About Us</h2>
-        <p>
-          We are a leading company providing top-notch services to our clients
-          worldwide.
-        </p>
-        <img src="./assets/office.jpg" alt="Office Image" />
-      </section> -->
+    <section id="hero" class="hero">
+      <div class="hero-phrase">
+        <h1>
+          The Future of Payments, Right in Your Pocket.
+        </h1>
+        <p>Seamless, secure, and lightning-fast transactions—pay, send, and receive money anytime, anywhere with ease.</p>
+       
+      </div>
+      <div class="hero-image">
+        <img src="assets/intro.png" alt="">
+      </div>
+      </section>
 
-    <section id="about" class="about">
+    <section id="about" class="about home-section">
+      <div>
       <h2>About Us</h2>
       <p>
         We are a leading company providing top-notch services to our clients
         worldwide.
       </p>
-      <img src="./assets/office.jpg" alt="Office Image" />
+    </div>
+      <div>
+      <img src="assets/about.png" alt="Office Image" />
+    </div>  
     </section>
 
-    <section id="services" class="services">
+    <section id="services" class="services home-section">
       <h2>Our Services</h2>
       <div class="services-box">
         <div>
@@ -70,10 +80,11 @@
         <h3>Customer Support.</h3>
         <p>We’re here to help you and your customers with anything, from setting up your business account to Seller Protection and queries with transactions.</p>
       </div>
+      
     </div>
     </section>
 
-    <section id="portfolio" class="portfolio">
+    <section id="portfolio" class="portfolio home-section">
       <h2>Our Portfolio</h2>
 
       <div class="project-cards">
@@ -88,7 +99,7 @@
       </div>
     </section>
 
-    <section id="team" class="team">
+    <section id="team" class="team home-section">
       <h2>Meet Our Team</h2>
       <div class="team-member">
         <img src="./assets/member-one.webp" alt="Team Member 1" />
@@ -100,7 +111,7 @@
       </div>
     </section>
 
-    <section id="testimonials" class="testimonials">
+    <section id="testimonials" class="testimonials home-section">
       <h2>Client Testimonials</h2>
       <div class="testimonial">
         <p>"Fantastic service! Highly recommend." - Alice Brown</p>
@@ -112,9 +123,9 @@
       </div>
     </section>
 
-    <section id="contact" class="contact">
+    <section id="contact" class="contact home-section">
       <h2>Contact Us</h2>
-      <form>
+      <form class="home-form">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" />
         <label for="email">Email:</label>

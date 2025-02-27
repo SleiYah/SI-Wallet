@@ -14,6 +14,13 @@ body {
   color: #f9f9f9;
   text-align: center;
 }
+.flex-col{
+  flex-direction: column !important;
+}
+.normal{
+  justify-content: normal !important;
+  align-items: normal !important;
+}
 /* header */
 
   header {

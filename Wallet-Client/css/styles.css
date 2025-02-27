@@ -227,7 +227,7 @@
   height: 100px;
 }
 .section-image {
-  height: 22em;
+  width: 22em;
 }
 .section-image img {
   max-height: 100%;
@@ -235,6 +235,215 @@
 }
 
 /* SIGN UP PAGE END */
+
+ /* WALLET */
+ .wallets-main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.h1-page-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+.wallet-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.wallet-summary {
+  background-color: #074145;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+}
+
+.total-balance {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.add-wallet-btn {
+  background-color: #0f8189;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-wallet-btn:hover {
+  background-color: #074145;
+}
+
+.wallets-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  font-size: 18px;
+}
+
+
+.wallets-container > div {
+  background-color: #1a1c29;
+  width: 300px;
+  height: 180px;
+  border-radius: 10px;
+  padding: 1.2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  margin-bottom: 1.6em;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.card-number {
+  font-size: 1.2em;
+  letter-spacing: 2px;
+  margin-bottom: 0.8em;
+  cursor: pointer;
+}
+
+.card-balance {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #eee;
+  margin-bottom: 1.2em;
+}
+
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.6em;
+}
+
+.card-holder,
+.card-expires,
+.cvv {
+  display: flex;
+  flex-direction: column;
+}
+.cvv-value{
+  cursor: pointer;
+}
+.card-label {
+  font-size: 0.7em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.value {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-type {
+  font-weight: bold;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+}
+
+.transfer-btn {
+  background-color: #57ff65;
+  color: #222;
+  font-weight: bold;
+  padding: 0.8em 1.5em;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.transfer-btn:hover {
+  background-color: #40e24e;
+}
+
+/* ADD WALLET MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container {
+  background-color: #1a1c29;
+  width: 90%;
+  height: 90%;
+  max-width: 500px;
+  border-radius: 10px;
+  padding: 3.2em;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 0.7em;
+}
+
+.modal-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.close-modal {
+  background: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+
+
+
+.submit-btn {
+  font-size: 15px;
+  background-color: #57ff65;
+  color: #222;
+  padding: 0.5em;
+  border-radius: 50px;
+  font-weight: bold;
+  margin-top: 0.8em;
+  cursor: pointer;
+
+}
+
+.submit-btn:hover {
+  background-color: #40e24e;
+}
+
+/* WALLET PAGE END */
 @media (max-width: 1400px) {
   .team img {
     width: 250px;
@@ -295,6 +504,13 @@
     display: none;
   }
   /* SIGN UP PAGE END */
+  /* WALLET PAGE*/
+  .summary-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  /* WALLET PAGE END */
 }
 
 @media (max-width: 640px) {

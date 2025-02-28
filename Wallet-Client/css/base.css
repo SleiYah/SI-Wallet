@@ -27,7 +27,9 @@ body {
 .height-normal{
   height: auto !important;
 }
-
+.flex {
+  display: flex !important;
+}
 /* header */
 
   header {

@@ -1,11 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SI-Wallet - Transfer Money</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>ƧI-Wallet</h1>
+
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="wallets.html">My Wallets</a></li>
+          <li><a href="transfer.html" class="active">Transfer</a></li>
+          <li><a href="transaction-history.html">Transactions</a></li>
+          <li><a href="user-profile.html">Profile</a></li>
+          <li><a href="help-center.html">Support</a></li>
+        </ul>
+      </nav>
+
+      <div class="actions">
+        <button class="login-btn">
+          <p>Logout</p>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <h1 class="h1-page-title">Transfer Money</h1>
+
+      <div class="wallets-container">
+        <div>
+          <p
+            class="card-number"
+            onclick="toggleCardDetails(this)"
+            data-number="1234 5678 9012 4567"
+          >
+            **** **** **** 4567
+          </p>
+          <p class="card-balance">Balance: $5,230.45</p>
+          <div class="card-details">
+            <div class="card-holder">
+              <span class="card-label">Card Holder</span>
+              <span class="value">John Doe</span>
+            </div>
+            <div class="card-expires">
+              <span class="card-label">Expires</span>
+              <span class="value">12/25</span>
+            </div>
+            <div class="cvv">
+              <span class="card-label">CVV</span>
+              <span
+                class="cvv-value"
+                onclick="toggleCardDetails(this)"
+                data-cvv="123"
+                >***</span
+              >
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-type">VISA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transfer-options">
+        <button class="option-btn" onclick="showTransferForm('withdraw')">
+          Withdraw
+        </button>
+        <button class="option-btn" onclick="showTransferForm('deposit')">
+          Deposit
+        </button>
+        <button class="option-btn" onclick="showTransferForm('p2p')">
+          P2P Transfer
+        </button>
+      </div>
+
+      <!-- TRANSFER FORMS -->
+      <div class="transfer-forms">
+        <!-- WITHDRAW -->
+        
+        <form
+          id="withdraw-form"
+          class="normal flex-col sign-up-box disp-none transfer-form height-normal">
+       <div class="transfer-form-container">
+          <h2>Withdraw Funds</h2>
+
+          <div class="sign-up-input-box form-box-font-size">
+            <label for="withdraw-amount">Amount</label>
+            <input type="text" id="withdraw-amount" placeholder="0.00" />
+          </div>
+
+          <div class="sign-up-input-box form-box-font-size">
+            <label for="withdraw-bank">Destination Bank Account</label>
+            <input
+              type="text"
+              id="withdraw-bank"
+              placeholder="Enter your bank account number"
+            />
+          </div>
+
+          <div class="sign-up-input-box form-box-font-size">
+            <label for="withdraw-bank-name">Bank Name</label>
+            <input
+              type="text"
+              id="withdraw-bank-name"
+              placeholder="Enter your bank name"
+            />
+          </div>
+
+          <div class="sign-up-input-box form-box-font-size">
+            <label for="withdraw-note">Note (Optional)</label>
+            <input
+              type="text"
+              id="withdraw-note"
+              placeholder="Add a note for this transaction"
+            />
+          </div>
+          <div class="actions">
+            <button class="submit-btn" onclick="submitTransfer('withdraw')">
+              Withdraw Funds
+            </button>
+          </div>
+        </div>
+        </form>
+
+        <!-- DEPOSIT -->
+         
+        <form
+          id="deposit-form"
+          class="normal flex-col sign-up-box disp-none transfer-form height-normal"
+        >
+        <div class="transfer-form-container">
+          <h2>Deposit Funds</h2>
+
+          <div class="sign-up-input-box form-box-font-size">
+            <label for="deposit-amount">Amount</label>
+            <input type="text" id="deposit-amount" placeholder="0.00" />
+          </div>
+
+          <div class="sign-up-input-box form-box-font-size">
+            <label for="deposit-method">Deposit Method</label>
+            <select id="deposit-method">
+              <option value="credit-card">Credit/Debit Card</option>
+              <option value="bank-transfer">Bank Transfer</option>
+              <option value="paypal">PayPal</option>
+            </select>
+          </div>
+
+          <div class="sign-up-input-box form-box-font-size">
+            <label for="deposit-note">Note (Optional)</label>
+            <input
+              type="text"
+              id="deposit-note"
+              placeholder="Add a note for this transaction"
+            />
+          </div>
+          <div class="actions">
+            <button class="submit-btn" onclick="submitTransfer('deposit')">
+              Deposit Funds
+            </button>
+          </div>
+        </div>
+        </form>
+
+        <!-- P2P TRANSFER -->
+        <div
+          id="p2p-form"
+          class="normal flex-col sign-up-box disp-none transfer-form height-normal"
+        >
+          <h2>P2P Transfer</h2>
+
+          <div class="transfer-options">
+            <button class="p2p-option" onclick="showP2POption('username')">
+              By Username
+            </button>
+            <button class="p2p-option" onclick="showP2POption('qr')">
+              By QR Code
+            </button>
+          </div>
+
+          <!-- USERNAME -->
+          <form
+            id="p2p-username"
+            class="sign-up-box p2p-form disp-none height-normal flex-col"
+          >
+          <div class="transfer-form-container">
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="p2p-recipient">Recipient Username</label>
+              <input
+                type="text"
+                id="p2p-recipient"
+                placeholder="Enter username"
+              />
+            </div>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="p2p-amount">Amount</label>
+              <input type="text" id="p2p-amount" placeholder="0.00" />
+            </div>
+
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="p2p-note">Note (Optional)</label>
+              <input
+                type="text"
+                id="p2p-note"
+                placeholder="Add a note for this transaction"
+              />
+            </div>
+            <div class="checkbox-container">
+              <input
+                type="checkbox"
+                id="schedule-transfer"
+                onchange="toggleSchedule(this)"
+              />
+
+              <label for="schedule-transfer">Schedule this transfer</label>
+            </div>
+
+            <div id="schedule-container" class="schedule-container flex-col">
+              <div class="sign-up-input-box form-box-font-size">
+                <label for="schedule-date">Transfer Date</label>
+                <input type="date" id="schedule-date" />
+              </div>
+            </div>
+            <div class="actions">
+            <button class="submit-btn" onclick="submitTransfer('p2p')">
+              Send Money
+            </button>
+          </div>
+        </div>
+          </form>
+
+          <!-- By QR Code Section -->
+          <form
+            id="p2p-qr"
+            class="sign-up-box p2p-form disp-none height-normal flex-col"
+          >
+            <div class="transfer-form-container">
+              <p>Scan QR code to send money</p>
+              <div class="sign-up-input-box form-box-font-size">
+                <label for="p2p-amount">Amount</label>
+                <input type="text" id="p2p-amount" placeholder="0.00" />
+              </div>
+              <div class="sign-up-input-box form-box-font-size">
+                <label for="p2p-note">Note (Optional)</label>
+                <input
+                  type="text"
+                  id="p2p-note"
+                  placeholder="Add a note for this transaction"
+                />
+              </div>
+              <div class="checkbox-container">
+                <input
+                  type="checkbox"
+                  id="schedule-transfer"
+                  onchange="toggleSchedule(this)"
+                />
+                <label for="schedule-transfer">Schedule this transfer</label>
+              </div>
+              <div id="schedule-container" class="schedule-container flex-col">
+                <div class="sign-up-input-box form-box-font-size">
+                  <label for="schedule-date">Transfer Date</label>
+                  <input type="date" id="schedule-date" />
+                </div>
+              </div>
+              <div class="actions">
+              <button class="submit-btn" onclick="submitTransfer('p2p')">
+                Send Money
+              </button>
+            </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer">
+        <div class="row">
+          <a href="#"><i class="fa fa-facebook"></i></a>
+          <a href="#"><i class="fa fa-instagram"></i></a>
+          <a href="#"><i class="fa fa-youtube"></i></a>
+          <a href="#"><i class="fa fa-twitter"></i></a>
+        </div>
+
+        <div class="row">
+          <ul>
+            <li><a href="#">Contact us</a></li>
+            <li><a href="#">Our Services</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Career</a></li>
+          </ul>
+        </div>
+
+        <div class="row">
+          SI-Wallet Copyright © 2025 SI-Wallet - All rights reserved
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/wallets.js"></script>
+    <script src="js/transfers.js"></script>
+  </body>
 </html>

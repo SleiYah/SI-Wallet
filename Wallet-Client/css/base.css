@@ -21,6 +21,13 @@ body {
   justify-content: normal !important;
   align-items: normal !important;
 }
+.disp-none{
+  display: none !important;
+}
+.height-normal{
+  height: auto !important;
+}
+
 /* header */
 
   header {
@@ -144,6 +151,22 @@ nav ul li a:hover {
   button:hover {
     background: #0f8189;
   }
+
+  .submit-btn {
+    font-size: 15px;
+    background-color: #57ff65;
+    color: #222;
+    padding: 0.5em;
+    border-radius: 50px;
+    font-weight: bold;
+    margin-top: 0.8em;
+    cursor: pointer;
+  
+  }
+  
+  .submit-btn:hover {
+    background-color: #40e24e;
+  }
   @media (max-width: 1200px) {
     /* Header */
     nav ul {
@@ -166,6 +189,9 @@ nav ul li a:hover {
     }
     .footer .row a i{
     margin:0% 3%;
+    }
+    .form-box-font-size{
+      font-size:15px !important;
     }
     }
  

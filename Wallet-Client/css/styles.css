@@ -71,7 +71,7 @@
 .about > h2,
 .services > h2,
 .contact > h2,
-.testimonials > h2 {
+.testimonials > h2, .help-section>h2 {
   font-size: 3em;
   text-align: center;
 }
@@ -434,7 +434,7 @@
 .actions .submit-btn{
   font-size: 0.7em;
 }
-  /* Transfer Options */
+
   .transfer-options {
     font-size: 13px;
     display: flex;
@@ -521,6 +521,56 @@
       color: #add8e6;
     }
 /* TRANSACTIONS PAGE END */
+
+/* HELP CENTER */
+.help-section {
+  background-color: #1a1c29;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+  
+}
+.help-section >h2{
+  margin-bottom: 1em;
+}
+.help-section p{
+  text-align: justify;
+  
+}
+
+
+
+.faq-container {
+  font-size: 15px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-container > div {
+  margin-bottom: 2.3em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 2.3em;
+}
+
+.faq-container > div > h3 {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #57ff65;
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+}
+
+.faq-container > div > p {
+  font-size: 1.125em;
+  line-height: 1.6;
+  color: #ccc;
+  padding: 0.5em;
+}
+
+/* HELP CENTER END */
+
 @media (max-width: 1400px) {
   .team img {
     width: 250px;
@@ -605,7 +655,11 @@
   padding: 0.3em;
 }
 /* TRANSACTIONS PAGE END*/
-
+/* HELP CENTER */
+.faq-container {
+  font-size: 13px;
+}
+/* HELP CENTER END */
 }
 
 @media (max-width: 640px) {

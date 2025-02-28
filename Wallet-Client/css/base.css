@@ -30,6 +30,17 @@ body {
 .flex {
   display: flex !important;
 }
+
+.bg-transparent{
+  background: transparent !important;
+}
+
+.m-0{
+  margin: 0 !important;;
+}
+.p-0{
+  padding: 0 !important;
+}
 /* header */
 
   header {

@@ -20,7 +20,7 @@
         <div class="burger-line"></div>
         <div class="burger-line"></div>
       </div>
-<nav>
+      <nav>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="wallets.html">My Wallets</a></li>
@@ -91,89 +91,81 @@
       <!-- TRANSFER FORMS -->
       <div class="transfer-forms">
         <!-- WITHDRAW -->
-        
+
         <form
           id="withdraw-form"
-          class="normal flex-col sign-up-box disp-none transfer-form height-normal">
-       <div class="transfer-form-container">
-          <h2>Withdraw Funds</h2>
+          class="normal flex-col sign-up-box disp-none transfer-form height-normal"
+        >
+          <div class="transfer-form-container">
+            <h2>Withdraw Funds</h2>
 
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="withdraw-amount">Amount</label>
-            <input type="text" id="withdraw-amount" placeholder="0.00" />
-          </div>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="withdraw-amount">Amount</label>
+              <input type="text" id="withdraw-amount" placeholder="0.00" />
+            </div>
 
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="withdraw-bank">Destination Bank Account</label>
-            <input
-              type="text"
-              id="withdraw-bank"
-              placeholder="Enter your bank account number"
-            />
-          </div>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="withdraw-bank-name">Bank Name</label>
+              <input
+                type="text"
+                id="withdraw-bank-name"
+                placeholder="Enter your bank name"
+              />
+            </div>
 
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="withdraw-bank-name">Bank Name</label>
-            <input
-              type="text"
-              id="withdraw-bank-name"
-              placeholder="Enter your bank name"
-            />
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="withdraw-note">Note (Optional)</label>
+              <input
+                type="text"
+                id="withdraw-note"
+                placeholder="Add a note for this transaction"
+              />
+            </div>
+            <div class="actions">
+              <button class="submit-btn" onclick="submitTransfer('withdraw')">
+                Withdraw Funds
+              </button>
+            </div>
           </div>
-
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="withdraw-note">Note (Optional)</label>
-            <input
-              type="text"
-              id="withdraw-note"
-              placeholder="Add a note for this transaction"
-            />
-          </div>
-          <div class="actions">
-            <button class="submit-btn" onclick="submitTransfer('withdraw')">
-              Withdraw Funds
-            </button>
-          </div>
-        </div>
         </form>
 
         <!-- DEPOSIT -->
-         
+
         <form
           id="deposit-form"
           class="normal flex-col sign-up-box disp-none transfer-form height-normal"
         >
-        <div class="transfer-form-container">
-          <h2>Deposit Funds</h2>
+          <div class="transfer-form-container">
+            <h2>Deposit Funds</h2>
 
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="deposit-amount">Amount</label>
-            <input type="text" id="deposit-amount" placeholder="0.00" />
-          </div>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="deposit-amount">Amount</label>
+              <input type="text" id="deposit-amount" placeholder="0.00" />
+            </div>
 
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="deposit-method">Deposit Method</label>
-            <select id="deposit-method">
-              <option value="credit-card">Credit/Debit Card</option>
-              <option value="bank-transfer">Bank Transfer</option>
-              <option value="paypal">PayPal</option>
-            </select>
-          </div>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="deposit-method">Deposit Method</label>
+              <select id="deposit-method">
+                <option value="credit-card">Credit/Debit Card</option>
+                <option value="bank-transfer">Bank Transfer</option>
+                <option value="paypal">PayPal</option>
+              </select>
+            </div>
 
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="deposit-note">Note (Optional)</label>
-            <input
-              type="text"
-              id="deposit-note"
-              placeholder="Add a note for this transaction"
-            />
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="deposit-note">Note (Optional)</label>
+              <input
+                type="text"
+                id="deposit-note"
+                placeholder="Add a note for this transaction"
+              />
+            </div>
+            <div class="actions">
+              <button class="submit-btn" onclick="submitTransfer('deposit')">
+                Deposit Funds
+              </button>
+            </div>
           </div>
-          <div class="actions">
-            <button class="submit-btn" onclick="submitTransfer('deposit')">
-              Deposit Funds
-            </button>
-          </div>
-        </div>
         </form>
 
         <!-- P2P TRANSFER -->
@@ -197,50 +189,50 @@
             id="p2p-username"
             class="sign-up-box p2p-form disp-none height-normal flex-col"
           >
-          <div class="transfer-form-container">
-            <div class="sign-up-input-box form-box-font-size">
-              <label for="p2p-recipient">Recipient Username</label>
-              <input
-                type="text"
-                id="p2p-recipient"
-                placeholder="Enter username"
-              />
-            </div>
-            <div class="sign-up-input-box form-box-font-size">
-              <label for="p2p-amount">Amount</label>
-              <input type="text" id="p2p-amount" placeholder="0.00" />
-            </div>
-
-            <div class="sign-up-input-box form-box-font-size">
-              <label for="p2p-note">Note (Optional)</label>
-              <input
-                type="text"
-                id="p2p-note"
-                placeholder="Add a note for this transaction"
-              />
-            </div>
-            <div class="checkbox-container">
-              <input
-                type="checkbox"
-                id="schedule-transfer"
-                onchange="toggleSchedule(this)"
-              />
-
-              <label for="schedule-transfer">Schedule this transfer</label>
-            </div>
-
-            <div id="schedule-container" class="schedule-container flex-col">
+            <div class="transfer-form-container">
               <div class="sign-up-input-box form-box-font-size">
-                <label for="schedule-date">Transfer Date</label>
-                <input type="date" id="schedule-date" />
+                <label for="p2p-recipient">Recipient Username</label>
+                <input
+                  type="text"
+                  id="p2p-recipient"
+                  placeholder="Enter username"
+                />
+              </div>
+              <div class="sign-up-input-box form-box-font-size">
+                <label for="p2p-amount">Amount</label>
+                <input type="text" id="p2p-amount" placeholder="0.00" />
+              </div>
+
+              <div class="sign-up-input-box form-box-font-size">
+                <label for="p2p-note">Note (Optional)</label>
+                <input
+                  type="text"
+                  id="p2p-note"
+                  placeholder="Add a note for this transaction"
+                />
+              </div>
+              <div class="checkbox-container">
+                <input
+                  type="checkbox"
+                  id="schedule-transfer"
+                  onchange="toggleSchedule(this)"
+                />
+
+                <label for="schedule-transfer">Schedule this transfer</label>
+              </div>
+
+              <div id="schedule-container" class="schedule-container flex-col">
+                <div class="sign-up-input-box form-box-font-size">
+                  <label for="schedule-date">Transfer Date</label>
+                  <input type="date" id="schedule-date" />
+                </div>
+              </div>
+              <div class="actions">
+                <button class="submit-btn" onclick="submitTransfer('p2p')">
+                  Send Money
+                </button>
               </div>
             </div>
-            <div class="actions">
-            <button class="submit-btn" onclick="submitTransfer('p2p')">
-              Send Money
-            </button>
-          </div>
-        </div>
           </form>
 
           <!-- By QR Code Section -->
@@ -277,10 +269,10 @@
                 </div>
               </div>
               <div class="actions">
-              <button class="submit-btn" onclick="submitTransfer('p2p')">
-                Send Money
-              </button>
-            </div>
+                <button class="submit-btn" onclick="submitTransfer('p2p')">
+                  Send Money
+                </button>
+              </div>
             </div>
           </form>
         </div>

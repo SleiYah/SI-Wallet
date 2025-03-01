@@ -585,25 +585,6 @@
   margin-bottom: 1.3em;
 }
 
-.profile-picture-container > div {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: #303245;
-  margin-bottom: 1.2em;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 3px solid #074145;
-}
-
-.profile-picture-container > div > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 
 .file-upload {
   position: relative;
@@ -625,7 +606,13 @@
   max-width: 600px;
   margin: 0 auto;
 }
+.profile-section >div {
+margin-bottom: 2em;
+border-radius: 5px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #1a1c29;
 
+}
 /* PROFILE PAGE END */
 @media (max-width: 1400px) {
   .team img {

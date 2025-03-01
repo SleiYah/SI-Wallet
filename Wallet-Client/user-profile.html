@@ -10,13 +10,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <style>
-    
-     
-
-    </style>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <header>
@@ -26,7 +21,6 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="wallets.html">My Wallets</a></li>
-          <li><a href="transfer.html">Transfer</a></li>
           <li><a href="transaction-history.html">Transactions</a></li>
           <li><a href="user-profile.html" class="active">Profile</a></li>
           <li><a href="help-center.html">Support</a></li>
@@ -43,7 +37,6 @@
     <main class="main-container">
       <h1 class="h1-page-title">User Profile</h1>
 
-
       <div class="transfer-options">
         <button class="option-btn" onclick="showProfileSection('personal')">
           Personal Information
@@ -56,91 +49,88 @@
         </button>
       </div>
 
-      <div id="personal-section" class="profile-section  height-normal">
+      <section id="personal-section" class="profile-section height-normal">
         <h2>Personal Information</h2>
-        
-        <div class="profile-picture-container">
-          <div class="profile-picture" id="profile-picture">
-          </div>
+
+        <div class="transfer-form-container">
           <form>
             <div class="sign-up-input-box form-box-font-size">
-            
-                <div class="file-upload">
-                  <button class="submit-btn border-r5">
-                   Change Profile
-                   <input type="file" id="id-upload" accept="image/*,.pdf" />
-                  </button>
-                 
-                </div>
-              </div>
-        </div>
-        
-        <div class="transfer-form-container">
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="username">Username</label>
-            <input type="text" id="username" value="johndoe123" />
-          </div>
-          
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="fullname">Full Name</label>
-            <input type="text" id="fullname" value="John Doe" />
-          </div>
-          
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" value="john.doe@example.com" />
-          </div>
-          
-          <div>
-            <button class="submit-btn border-r5">
-              Save Changes
-            </button>
-          </div>
-        </form>
-       
-        </div>
-      </div>
+              <label for="username">Username</label>
+              <input type="text" id="username" placeholder="Username" />
+            </div>
 
-    
-      <div id="security-section" class="profile-section disp-none height-normal">
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="firstname">First Name</label>
+              <input type="text" id="fullname" placeholder="First Name" />
+            </div>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="lastname">Last Name</label>
+              <input type="text" id="fullname" placeholder="Last Name" />
+            </div>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="Email" />
+            </div>
+
+            <div>
+              <button class="submit-btn border-r5">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section
+        id="security-section"
+        class="profile-section disp-none height-normal"
+      >
         <h2>Security Settings</h2>
-        
-        <div class="profile-form-container">
-            <form>
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="current-password">Current Password</label>
-            <input type="password" id="current-password" placeholder="Enter your current password" />
-          </div>
-          
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="new-password">New Password</label>
-            <input type="password" id="new-password" placeholder="Enter new password" />
-          </div>
-          
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="confirm-password">Confirm New Password</label>
-            <input type="password" id="confirm-password" placeholder="Confirm new password" />
-          </div>
-          
-          <div>
-            <button class="submit-btn border-r5">
-              Change Password
-            </button>
-          </div>
-        </form>
-        </div>
-      </div>
 
-   
-      <div id="verification-section" class="profile-section disp-none">
+        <div class="profile-form-container">
+          <form>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="current-password">Current Password</label>
+              <input
+                type="password"
+                id="current-password"
+                placeholder="Enter your current password"
+              />
+            </div>
+
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="new-password">New Password</label>
+              <input
+                type="password"
+                id="new-password"
+                placeholder="Enter new password"
+              />
+            </div>
+
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="confirm-password">Confirm New Password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                placeholder="Confirm new password"
+              />
+            </div>
+
+            <div>
+              <button class="submit-btn border-r5">Change Password</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="verification-section" class="profile-section disp-none">
         <h2>Account Verification</h2>
-        
-       
-        <div class="verification-status status-tier-1 flex-col">
-          
-          <div class="status-text">
+
+        <div>
+          <div>
             <h3>Email Verification</h3>
-            <p id="email-verification-status">Your email (john.doe@example.com) is not verified. Please verify your email to unlock basic features.</p>
+            <p id="email-verification-status">
+              Your email (john.doe@example.com) is not verified. Please verify
+              your email to unlock basic features.
+            </p>
           </div>
           <div>
             <button class="submit-btn border-r5" id="verify-email-btn">
@@ -148,52 +138,48 @@
             </button>
           </div>
         </div>
-        
-        
-        <!-- ID Verification Section -->
-        <div class="verification-status status-tier-2" style="margin-top: 30px;">
-          <div class="status-text">
-            <h3>Passport Verification</h3>
-            <p>To unlock all features and remove limits, complete your passport verification below.</p>
-          </div>
-        </div>
-        
-       
-          <form>
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="id-upload">Upload Passport</label>
-            <div class="file-upload">
-              <button class="submit-btn border-r5">
-               Select File
-               <input type="file" id="id-upload" accept="image/*,.pdf" />
-              </button>
-             
-            </div>
-            <small>Accepted formats: JPG, PNG, PDF (max 5MB)</small>
-          </div>
-          
-          <div class="sign-up-input-box form-box-font-size">
-            <label for="selfie-upload">Upload Selfie</label>
-            <div class="file-upload">
-              <button class="submit-btn border-r5">
-               Select File
-               <input type="file" id="selfie-upload" accept="image/*" />
-              </button>
-              
-            </div>
-            <small>Please take a selfie</small>
-          </div>
-          
+        <div>
           <div>
-            <button class="submit-btn border-r5">
-              Submit ID Verification
-            </button>
-        </form>
+            <div>
+              <h3>Passport Verification</h3>
+              <p>
+                To unlock all features and remove limits, complete your passport
+                verification below.
+              </p>
+            </div>
           </div>
-          
-     
+
+          <form>
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="id-upload">Upload Passport</label>
+              <div class="file-upload">
+                <button class="submit-btn border-r5">
+                  Select File
+                  <input type="file" id="id-upload" accept="image/*,.pdf" />
+                </button>
+              </div>
+              <small>Accepted formats: JPG, PNG, PDF (max 5MB)</small>
+            </div>
+
+            <div class="sign-up-input-box form-box-font-size">
+              <label for="selfie-upload">Upload Selfie</label>
+              <div class="file-upload">
+                <button class="submit-btn border-r5">
+                  Select File
+                  <input type="file" id="selfie-upload" accept="image/*" />
+                </button>
+              </div>
+              <small>Please take a selfie</small>
+            </div>
+
+            <div>
+              <button class="submit-btn border-r5">
+                Submit ID Verification
+              </button>
+            </div>
+          </form>
         </div>
-      </div>
+      </section>
     </main>
 
     <footer>
@@ -221,7 +207,6 @@
       </div>
     </footer>
 
-    <script src="js/user-profile.js">
-    </script>
+    <script src="js/user-profile.js"></script>
   </body>
 </html>

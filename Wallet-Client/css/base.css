@@ -41,6 +41,9 @@ body {
 .p-0{
   padding: 0 !important;
 }
+.border-r5{
+  border-radius: 5px !important;
+}
 /* header */
 
   header {

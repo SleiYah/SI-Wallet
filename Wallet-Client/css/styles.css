@@ -423,7 +423,7 @@
 
 /* WALLET PAGE END */
   /* TRANSFER PAGE */
-  .transfer-forms h2 {
+  .transfer-forms h2,.profile-section h2 {
     font-size: 2em;
     margin: 1em;
   }
@@ -474,7 +474,7 @@
     flex-direction: column;
     align-items: center;
   }
-
+  
   /* TRANSFER PAGE END*/
     /* TRANSACTIONS TABLE */
     .table-container {
@@ -570,7 +570,63 @@
 }
 
 /* HELP CENTER END */
+ /* PROFILE PAGE */
+ .profile-section {
+  background-color: #1a1c29;
+  border-radius: 10px;
+  padding: 2.5em;
+  margin-bottom: 3em;
+}
 
+.profile-picture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.3em;
+}
+
+.profile-picture-container > div {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #303245;
+  margin-bottom: 1.2em;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #074145;
+}
+
+.profile-picture-container > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.file-upload {
+  position: relative;
+  overflow: hidden;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  right: 0;
+  top: 0;
+
+}
+
+.profile-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* PROFILE PAGE END */
 @media (max-width: 1400px) {
   .team img {
     width: 250px;

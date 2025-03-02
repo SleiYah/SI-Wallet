@@ -1,6 +1,6 @@
 <?php 
    
-    $conn = new mysqli("localhost", "root", "", "SIWallet");
+    $conn = new mysqli("localhost", "root", "", "si_wallet_db");
 
 
 if ($conn->connect_error) {

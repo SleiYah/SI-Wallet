@@ -78,7 +78,7 @@ else {
     
     $walletData = [
         'user_id' => $user_id,
-        'card_number' => $clean_card_number,
+        'card_number' => $card_number,
         'cvv' => $cvv,
         'expiry_date' => $expiry_date,
         'balance' => $balance

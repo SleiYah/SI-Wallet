@@ -22,7 +22,6 @@ function sendVerificationEmail($userId, $email, $name) {
     
     $mail = new PHPMailer(true);
     try {
-        // Server settings
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';  
         $mail->SMTPAuth = true;
@@ -31,11 +30,9 @@ function sendVerificationEmail($userId, $email, $name) {
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
         
-        // Recipients
-        $mail->setFrom('noreply@yourwebsite.com', 'Your Website');
+        $mail->setFrom('SI-Wallet@SI-Wallet.com', 'SI-Wallet.com');
         $mail->addAddress($email, $name);
         
-        // Content
         $mail->isHTML(true);
         $mail->Subject = 'Verify Your Email Address';
         $mail->Body = "

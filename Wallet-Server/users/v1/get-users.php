@@ -49,7 +49,6 @@ else {
     
     $users = [];
     while ($row = $result->fetch_assoc()) {
-        // Remove sensitive information
         $users[] = $row;
     }
     

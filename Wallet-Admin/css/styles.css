@@ -1,0 +1,91 @@
+
+
+/* SIGN-UP PAGE */
+.sign-up-box {
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 26px;
+  height: 90vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-up-input-box {
+  font-size: 17px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin: 0.3em;
+}
+
+.sign-up-input-box input,
+.sign-up-input-box textarea,
+.sign-up-input-box select {
+  background-color: #303245;
+  border-radius: 2px;
+  border: 0;
+  box-sizing: border-box;
+  color: #eee;
+  font-size: 1em;
+  outline: 0;
+  padding: 0.75em 1em;
+}
+.sign-up-input-box textarea {
+  height: 100px;
+}
+.section-image {
+  width: 22em;
+}
+.section-image img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+/* SIGN UP PAGE END */
+
+.table-container {
+  font-size: 15px;
+  background-color: #1a1c29;
+  border-radius: 10px;
+  padding: 1.5em;
+  margin-bottom: 2.4em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow-x: auto;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #f9f9f9;
+}
+
+.transactions-table th, 
+.transactions-table td {
+  padding: 1em;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.transactions-table th {
+  background-color: #074145;
+  font-weight: bold;
+}
+
+.transactions-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.type-deposit {
+  color: #57ff65;
+}
+
+.type-withdraw {
+  color: #ff6347;
+}
+
+.type-p2p {
+  color: #add8e6;
+}

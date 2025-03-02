@@ -6,7 +6,7 @@ class Wallet
 
     public function __construct()
     {
-        include(__DIR__ . "/../connection/conn.php");
+        global $conn;
         $this->conn = $conn;
     }
 
@@ -46,24 +46,10 @@ class Wallet
         return false;
     }
 
-    public function readByUserId($userId)
+    public function update($id, $walletData)
     {
-        $query = "SELECT * FROM wallets WHERE user_id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $balance = $walletData['balance'];
 
-        $wallets = [];
-        while ($row = $result->fetch_assoc()) {
-            $wallets[] = $row;
-        }
-
-        return $wallets;
-    }
-
-    public function updateBalance($id, $balance)
-    {
         $query = "UPDATE wallets SET balance = ? WHERE wallet_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("di", $balance, $id);
@@ -73,5 +59,14 @@ class Wallet
         }
 
         return false;
+    }
+
+    public function delete($id)
+    {
+        $query = "DELETE FROM wallets WHERE wallet_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id);
+
+        return $stmt->execute() && $stmt->affected_rows > 0;
     }
 }

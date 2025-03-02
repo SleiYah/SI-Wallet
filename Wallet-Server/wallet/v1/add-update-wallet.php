@@ -42,7 +42,11 @@ if ($wallet_id) {
         exit;
     }
     
-    $result = $wallet->updateBalance($wallet_id, $balance);
+    $walletData = [
+        'balance' => $balance
+    ];
+    
+    $result = $wallet->update($wallet_id, $walletData);
     
     if ($result) {
         echo json_encode([
@@ -58,19 +62,13 @@ if ($wallet_id) {
     }
 } 
 else {
-    if (empty($user_id) || empty($card_number) || empty($cvv) || empty($expiry_date)) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'User ID, card number, CVV, and expiry date are required.'
-        ]);
-        exit;
-    }
+    $user_query = "SELECT * FROM users WHERE user_id = ?";
+    $user_stmt = $conn->prepare($user_query);
+    $user_stmt->bind_param("i", $user_id);
+    $user_stmt->execute();
+    $user_result = $user_stmt->get_result();
     
-   
-    include(__DIR__ . "/../../models/users.php");
-    $user = new User();
-    $existingUser = $user->read($user_id);
-    if (!$existingUser) {
+    if ($user_result->num_rows == 0) {
         echo json_encode([
             'success' => false,
             'message' => 'User not found'
@@ -83,6 +81,7 @@ else {
         'card_number' => $clean_card_number,
         'cvv' => $cvv,
         'expiry_date' => $expiry_date,
+        'balance' => $balance
     ];
     
     $walletId = $wallet->create($walletData);

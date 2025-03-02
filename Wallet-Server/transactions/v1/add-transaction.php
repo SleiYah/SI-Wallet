@@ -2,6 +2,7 @@
 include(__DIR__ . "/../../models/transactions.php");
 include(__DIR__ . "/../../models/p2p_transactions.php");
 include(__DIR__ . "/../../models/wallets.php");
+include(__DIR__ . "/../../models/scheduled_transactions.php");
 include(__DIR__ . "/../../connection/conn.php");
 
 header('Content-Type: application/json');
@@ -26,6 +27,16 @@ $amount = $data['amount'] ?? null;
 $transaction_type = $data['transaction_type'] ?? '';
 $to_wallet_id = $data['to_wallet_id'] ?? null;
 $recipient_username = $data['recipient_username'] ?? '';
+$schedule_date = $data['schedule_date'] ?? null;
+$is_scheduled = !empty($schedule_date);
+
+if ($is_scheduled && $transaction_type !== 'p2p') {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Only P2P transactions can be scheduled.'
+    ]);
+    exit;
+}
 
 if (empty($wallet_id) || $amount === null || empty($transaction_type)) {
     echo json_encode([
@@ -53,6 +64,20 @@ if (!in_array($transaction_type, $valid_types)) {
     exit;
 }
 
+if ($is_scheduled) {
+    $current_date = new DateTime();
+    $scheduled_date = new DateTime($schedule_date);
+    
+    if ($scheduled_date < $current_date) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Schedule date cannot be in the past.'
+        ]);
+        exit;
+    }
+    
+    $formatted_schedule_date = $scheduled_date->format('Y-m-d H:i:s');
+}
 
 if ($transaction_type === 'p2p' && empty($to_wallet_id)) {
     echo json_encode([
@@ -110,7 +135,6 @@ if (!$sourceWallet) {
     exit;
 }
 
-
 if (($transaction_type === 'withdraw' || $transaction_type === 'p2p') && $sourceWallet['balance'] < $amount) {
     echo json_encode([
         'success' => false,
@@ -159,6 +183,32 @@ if (!$transaction_id) {
     exit;
 }
 
+if ($transaction_type === 'p2p') {
+    if (!$p2p_transaction->create($transaction_id, $to_wallet_id)) {
+        $transaction->delete($transaction_id);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Failed to create P2P transaction record'
+        ]);
+        exit;
+    }
+}
+
+if ($is_scheduled) {
+    $scheduled_transaction = new Scheduled_Transaction();
+    $schedule_id = $scheduled_transaction->create($transaction_id, $formatted_schedule_date);
+    
+
+    
+    echo json_encode([
+        'success' => true,
+        'message' => 'Transaction scheduled successfully',
+        'transaction_id' => $transaction_id,
+        'schedule_id' => $schedule_id,
+        'schedule_date' => $formatted_schedule_date
+    ]);
+    exit;
+}
 
 $newBalance = 0;
 
@@ -209,15 +259,6 @@ else if ($transaction_type === 'p2p') {
         echo json_encode([
             'success' => false,
             'message' => 'Failed to update recipient wallet balance'
-        ]);
-        exit;
-    }
-    
-    
-    if (!$p2p_transaction->create($transaction_id, $to_wallet_id)) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Failed to create P2P transaction record'
         ]);
         exit;
     }

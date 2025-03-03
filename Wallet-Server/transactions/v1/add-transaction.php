@@ -30,14 +30,6 @@ $recipient_username = $data['recipient_username'] ?? '';
 $schedule_date = $data['schedule_date'] ?? null;
 $is_scheduled = !empty($schedule_date);
 
-if ($is_scheduled && $transaction_type !== 'p2p') {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Only P2P transactions can be scheduled.'
-    ]);
-    exit;
-}
-
 if (empty($wallet_id) || $amount === null || empty($transaction_type)) {
     echo json_encode([
         'success' => false,
@@ -64,21 +56,14 @@ if (!in_array($transaction_type, $valid_types)) {
     exit;
 }
 
-if ($is_scheduled) {
-    $current_date = new DateTime();
-    $scheduled_date = new DateTime($schedule_date);
-    
-    if ($scheduled_date < $current_date) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Schedule date cannot be in the past.'
-        ]);
-        exit;
-    }
-    
-    $formatted_schedule_date = $scheduled_date->format('Y-m-d H:i:s');
-}
 
+if ($is_scheduled && $transaction_type !== 'p2p') {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Only P2P transactions can be scheduled.'
+    ]);
+    exit;
+}
 if ($transaction_type === 'p2p' && empty($to_wallet_id)) {
     echo json_encode([
         'success' => false,
@@ -87,15 +72,58 @@ if ($transaction_type === 'p2p' && empty($to_wallet_id)) {
     exit;
 }
 
+if ($is_scheduled) {
+    $current_date = new DateTime();
+    $scheduled_date = new DateTime($schedule_date);
+
+    if ($scheduled_date < $current_date) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Schedule date cannot be in the past.'
+        ]);
+        exit;
+    }
+
+    $formatted_schedule_date = $scheduled_date->format('Y-m-d H:i:s');
+}
+
+$source_user_query = "SELECT u.tier, u.max_transaction_amount 
+                       FROM wallets w 
+                       JOIN users u ON w.user_id = u.user_id 
+                       WHERE w.wallet_id = ?";
+$source_user_stmt = $conn->prepare($source_user_query);
+$source_user_stmt->bind_param("i", $wallet_id);
+$source_user_stmt->execute();
+$source_user_result = $source_user_stmt->get_result();
+
+if ($source_user_result->num_rows == 0) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Failed to retrieve user information'
+    ]);
+    exit;
+}
+
+$source_user = $source_user_result->fetch_assoc();
+$source_max_amount = $source_user['max_transaction_amount'];
+
+if ($amount > $source_max_amount) {
+    echo json_encode([
+        'success' => false,
+        'message' => "Transaction amount exceeds your limit of $" . $source_max_amount
+    ]);
+    exit;
+}
+
 if ($transaction_type === 'p2p' && !empty($data['recipient_username'])) {
     $recipient_username = $data['recipient_username'];
-    
+
     $user_query = "SELECT user_id FROM users WHERE username = ?";
     $user_stmt = $conn->prepare($user_query);
     $user_stmt->bind_param("s", $recipient_username);
     $user_stmt->execute();
     $user_result = $user_stmt->get_result();
-    
+
     if ($user_result->num_rows == 0) {
         echo json_encode([
             'success' => false,
@@ -103,15 +131,15 @@ if ($transaction_type === 'p2p' && !empty($data['recipient_username'])) {
         ]);
         exit;
     }
-    
+
     $recipient_user_id = $user_result->fetch_assoc()['user_id'];
-    
+
     $wallet_query = "SELECT * FROM wallets WHERE wallet_id = ? AND user_id = ?";
     $wallet_stmt = $conn->prepare($wallet_query);
     $wallet_stmt->bind_param("ii", $to_wallet_id, $recipient_user_id);
     $wallet_stmt->execute();
     $wallet_result = $wallet_stmt->get_result();
-    
+
     if ($wallet_result->num_rows == 0) {
         echo json_encode([
             'success' => false,
@@ -119,6 +147,35 @@ if ($transaction_type === 'p2p' && !empty($data['recipient_username'])) {
         ]);
         exit;
     }
+
+    $recipient_user_query = "SELECT u.tier, u.max_transaction_amount ,u.username
+                             FROM users u 
+                             WHERE u.user_id = ?";
+    $recipient_user_stmt = $conn->prepare($recipient_user_query);
+    $recipient_user_stmt->bind_param("i", $recipient_user_id);
+    $recipient_user_stmt->execute();
+    $recipient_user_result = $recipient_user_stmt->get_result();
+
+    if ($recipient_user_result->num_rows > 0) {
+        $recipient_user = $recipient_user_result->fetch_assoc();
+        $recipient_max_amount = $recipient_user['max_transaction_amount'];
+        $recipient_username = $recipient_user['username'];
+
+
+        if ($amount > $recipient_max_amount) {
+            echo json_encode([
+                'success' => false,
+                'message' => $recipient_username . " can't receive more than $" . $recipient_max_amount . " per transaction"
+            ]);
+            exit;
+        }
+    }
+} else if ($transaction_type === 'p2p' && empty($data['recipient_username'])) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Recipient can not be empty in p2p transactions'
+    ]);
+    exit;
 }
 
 $wallet = new Wallet();
@@ -153,8 +210,8 @@ if ($transaction_type === 'p2p') {
         ]);
         exit;
     }
-    
-    
+
+
     if ($wallet_id == $to_wallet_id) {
         echo json_encode([
             'success' => false,
@@ -197,9 +254,9 @@ if ($transaction_type === 'p2p') {
 if ($is_scheduled) {
     $scheduled_transaction = new Scheduled_Transaction();
     $schedule_id = $scheduled_transaction->create($transaction_id, $formatted_schedule_date);
-    
 
-    
+
+
     echo json_encode([
         'success' => true,
         'message' => 'Transaction scheduled successfully',
@@ -223,10 +280,7 @@ if ($transaction_type === 'deposit') {
         ]);
         exit;
     }
-}
-
-
-else if ($transaction_type === 'withdraw') {
+} else if ($transaction_type === 'withdraw') {
     $newBalance = $sourceWallet['balance'] - $amount;
     $walletData = ['balance' => $newBalance];
     if (!$wallet->update($wallet_id, $walletData)) {
@@ -236,12 +290,9 @@ else if ($transaction_type === 'withdraw') {
         ]);
         exit;
     }
-}
+} else if ($transaction_type === 'p2p') {
 
 
-else if ($transaction_type === 'p2p') {
-    
-    
     $newSourceBalance = $sourceWallet['balance'] - $amount;
     $sourceWalletData = ['balance' => $newSourceBalance];
     if (!$wallet->update($wallet_id, $sourceWalletData)) {
@@ -251,8 +302,8 @@ else if ($transaction_type === 'p2p') {
         ]);
         exit;
     }
-    
-    
+
+
     $newRecipientBalance = $recipientWallet['balance'] + $amount;
     $recipientWalletData = ['balance' => $newRecipientBalance];
     if (!$wallet->update($to_wallet_id, $recipientWalletData)) {
@@ -262,7 +313,7 @@ else if ($transaction_type === 'p2p') {
         ]);
         exit;
     }
-    
+
     $newBalance = $newSourceBalance;
 }
 

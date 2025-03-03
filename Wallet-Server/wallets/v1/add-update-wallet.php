@@ -1,5 +1,6 @@
 <?php
 include(__DIR__ . "/../../models/wallets.php");
+include(__DIR__ . "/../../models/users.php");
 include(__DIR__ . "/../../connection/conn.php");
 
 header('Content-Type: application/json');
@@ -18,6 +19,7 @@ $data = json_decode($json_string, true);
 $wallet_id = $data['wallet_id'] ?? null;
 $user_id = $data['user_id'] ?? null;
 $card_number = $data['card_number'] ?? '';
+$card_type = $data['card_type'] ?? null;
 $cvv = $data['cvv'] ?? '';
 $expiry_date = $data['expiry_date'] ?? '';
 $balance = $data['balance'] ?? 0.00;
@@ -25,6 +27,7 @@ $balance = $data['balance'] ?? 0.00;
 $wallet = new Wallet();
 
 if ($wallet_id) {
+    // UPDATE MODE
     $existingWallet = $wallet->read($wallet_id);
     if (!$existingWallet) {
         echo json_encode([
@@ -62,13 +65,27 @@ if ($wallet_id) {
     }
 } 
 else {
-    $user_query = "SELECT * FROM users WHERE user_id = ?";
-    $user_stmt = $conn->prepare($user_query);
-    $user_stmt->bind_param("i", $user_id);
-    $user_stmt->execute();
-    $user_result = $user_stmt->get_result();
+    if (empty($user_id) || empty($card_number) || empty($card_type) || empty($cvv) || empty($expiry_date)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'User ID, card number, card type, CVV, and expiry date are required.'
+        ]);
+        exit;
+    }
     
-    if ($user_result->num_rows == 0) {
+    $allowed_card_types = ['Visa', 'Mastercard', 'Amex', 'Discover'];
+    if (!in_array($card_type, $allowed_card_types)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Card type must be one of: Visa, Mastercard, Amex, or Discover.'
+        ]);
+        exit;
+    }
+    
+    $user = new User();
+    $userData = $user->read($user_id);
+    
+    if (!$userData) {
         echo json_encode([
             'success' => false,
             'message' => 'User not found'
@@ -76,9 +93,43 @@ else {
         exit;
     }
     
+    $user_tier = $userData['tier'];
+    
+    if ($user_tier < 3) {
+        $wallet_count_query = "SELECT COUNT(*) as wallet_count FROM wallets WHERE user_id = ?";
+        $wallet_count_stmt = $conn->prepare($wallet_count_query);
+        $wallet_count_stmt->bind_param("i", $user_id);
+        $wallet_count_stmt->execute();
+        $wallet_count_result = $wallet_count_stmt->get_result();
+        $wallet_count = $wallet_count_result->fetch_assoc()['wallet_count'];
+        
+        if ($wallet_count > 0) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Users with tier ' . $user_tier . ' are allowed one wallet. Upgrade to tier 3 for multiple wallets.'
+            ]);
+            exit;
+        }
+    }
+    
+    $checkQuery = "SELECT wallet_id FROM wallets WHERE card_number = ? AND card_type = ?";
+    $checkStmt = $conn->prepare($checkQuery);
+    $checkStmt->bind_param("ss", $card_number, $card_type);
+    $checkStmt->execute();
+    $checkResult = $checkStmt->get_result();
+    
+    if ($checkResult->num_rows > 0) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'This card is already registered with the same brand'
+        ]);
+        exit;
+    }
+    
     $walletData = [
         'user_id' => $user_id,
         'card_number' => $card_number,
+        'card_type' => $card_type,
         'cvv' => $cvv,
         'expiry_date' => $expiry_date,
         'balance' => $balance

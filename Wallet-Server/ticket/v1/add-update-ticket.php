@@ -1,5 +1,6 @@
 <?php
-include(__DIR__ . "/../../models/Tickets.php");
+include(__DIR__ . "/../../models/tickets.php");
+include(__DIR__ . "/../../models/Users.php");
 include(__DIR__ . "/../../connection/conn.php");
 
 header('Content-Type: application/json');
@@ -22,30 +23,17 @@ $message = $data['message'] ?? '';
 $status = $data['status'] ?? '';
 
 $ticket = new Ticket();
+$user = new User();
 
-function checkUserExists($conn, $user_id) {
-    $query = "SELECT * FROM users WHERE user_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        return $result->fetch_assoc();
-    } else {
-        return false;
-    }
+function checkUserExists($user, $user_id) {
+    $userData = $user->read($user_id);
+    return $userData ? true : false;
 }
 
 function validateStatus($status) {
     $valid_statuses = ['open', 'in_progress', 'resolved'];
     return in_array($status, $valid_statuses);
 }
-
-$ticketData = [
-    'user_id' => $user_id,
-    'subject' => $subject,
-    'message' => $message,
-];
 
 if ($ticket_id) {
     $existingTicket = $ticket->read($ticket_id);
@@ -65,32 +53,27 @@ if ($ticket_id) {
             ]);
             exit;
         }
-        $ticketData['status'] = $status;
-    }
-
-    if ($user_id && $user_id != $existingTicket['user_id']) {
-        if (!checkUserExists($conn, $user_id)) {
+        
+        $result = $ticket->update($ticket_id, $status);
+        
+        if ($result) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Ticket updated successfully',
+                'ticket_id' => $ticket_id
+            ]);
+        } else {
             echo json_encode([
                 'success' => false,
-                'message' => 'User not found'
+                'message' => 'Failed to update ticket'
             ]);
-            exit;
         }
-    }
-
-    $result = $ticket->update($ticket_id, $ticketData);
-    
-    if ($result) {
-        echo json_encode([
-            'success' => true,
-            'message' => 'Ticket updated successfully',
-            'ticket_id' => $ticket_id
-        ]);
     } else {
         echo json_encode([
             'success' => false,
-            'message' => 'Failed to update ticket'
+            'message' => 'Status is required for ticket updates'
         ]);
+        exit;
     }
 } else {
     if (empty($user_id) || empty($subject) || empty($message)) {
@@ -101,13 +84,19 @@ if ($ticket_id) {
         exit;
     }
 
-    if (!checkUserExists($conn, $user_id)) {
+    if (!checkUserExists($user, $user_id)) {
         echo json_encode([
             'success' => false,
             'message' => 'User not found'
         ]);
         exit;
     }
+
+    $ticketData = [
+        'user_id' => $user_id,
+        'subject' => $subject,
+        'message' => $message
+    ];
 
     $newTicketId = $ticket->create($ticketData);
     
@@ -124,3 +113,4 @@ if ($ticket_id) {
         ]);
     }
 }
+?>

@@ -1,6 +1,6 @@
 <?php
 include(__DIR__ . "/../../connection/conn.php");
-
+include(__DIR__ . "/../../utils/jwt-auth.php");
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'message' => 'Login successful',
             'user' => $user
         ]);
+        $token = generateToken($user);
     } else {
         echo json_encode([
             'success' => false,

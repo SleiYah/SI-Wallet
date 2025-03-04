@@ -1,6 +1,7 @@
 <?php
 include(__DIR__ . "/../../models/wallets.php");
 include(__DIR__ . "/../../connection/conn.php");
+include(__DIR__ . "/../../utils/jwt-auth.php");
 
 header('Content-Type: application/json');
 
@@ -12,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     ]);
     exit;
 }
+$userData = authenticate();
 
 
 if (!isset($_GET['user_id']) || empty($_GET['user_id'])) {
@@ -25,14 +27,13 @@ if (!isset($_GET['user_id']) || empty($_GET['user_id'])) {
 $userId = $_GET['user_id'];
 
 
-if (!is_numeric($userId)) {
+if ($userData->user_id != $userId) {
     echo json_encode([
         'success' => false,
-        'message' => 'Invalid user ID format'
+        'message' => 'You do not have permission to view wallets for this user'
     ]);
     exit;
 }
-
 
 $query = "SELECT * FROM wallets WHERE user_id = ?";
 $stmt = $conn->prepare($query);

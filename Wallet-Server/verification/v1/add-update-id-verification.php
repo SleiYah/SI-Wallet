@@ -1,6 +1,8 @@
 <?php
-include("../../models/Verifications.php");
+include(__DIR__ . "/../../models/Verifications.php");
 include(__DIR__ . "/../../connection/conn.php");
+include(__DIR__ . "/../../utils/jwt-auth.php");
+
 
 header('Content-Type: application/json');
 
@@ -11,13 +13,21 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     ]);
     exit;
 }
-
 $user_id = $_POST['user_id'] ?? null;
+$userData = authenticate();
 
 if (!$user_id) {
     echo json_encode([
         'success' => false,
         'message' => 'User ID is required.'
+    ]);
+    exit;
+}
+
+if ($userData->user_id != $user_id) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'You do not have permission to update verification for this user'
     ]);
     exit;
 }

@@ -2,6 +2,7 @@
 include(__DIR__ . "/../../models/wallets.php");
 include(__DIR__ . "/../../models/users.php");
 include(__DIR__ . "/../../connection/conn.php");
+include(__DIR__ . "/../../utils/jwt-auth.php");
 
 header('Content-Type: application/json');
 
@@ -24,10 +25,25 @@ $cvv = $data['cvv'] ?? '';
 $expiry_date = $data['expiry_date'] ?? '';
 $balance = $data['balance'] ?? 0.00;
 
+$userData = authenticate();
+if (!$user_id) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'User ID is required.'
+    ]);
+    exit;
+}
+
+if ($userData->user_id != $user_id) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'You do not have permission to update this wallet'
+    ]);
+    exit;
+}
 $wallet = new Wallet();
 
 if ($wallet_id) {
-    // UPDATE MODE
     $existingWallet = $wallet->read($wallet_id);
     if (!$existingWallet) {
         echo json_encode([

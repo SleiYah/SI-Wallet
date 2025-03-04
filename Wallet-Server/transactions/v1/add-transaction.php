@@ -17,9 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 
+
 $json_string = file_get_contents('php://input');
 $data = json_decode($json_string, true);
 
+$userData = authenticate();
 
 $wallet_id = $data['wallet_id'] ?? null;
 $note = $data['note'] ?? '';

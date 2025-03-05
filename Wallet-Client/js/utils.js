@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
       logoutBtn.addEventListener('click', logout);
   }
 
-  showWalletLink()
+  showUserElements()
 });
 
 function showMessage(message, type = 'info') {
@@ -52,13 +52,17 @@ function checkAuthStatus(page_name) {
   }
 }
 
-function showWalletLink(){
-  const showWalletLink = document.getElementById("signed_in")
+function showUserElements() {
   const authToken = localStorage.getItem('authToken');
+
+  const loggedInElements = document.querySelectorAll(".signed_in"); 
+  const authButtons = document.querySelectorAll(".auth-buttons"); 
+
   if (authToken) {
-     showWalletLink.style.display = "normal" ;
-  } else{
-    showWalletLink.style.display = "none"
+    loggedInElements.forEach(el => el.style.display = "normal");
+    authButtons.forEach(el => el.style.display = "none");
+  } else {
+    loggedInElements.forEach(el => el.style.display = "none");
+    authButtons.forEach(el => el.style.display = "normal");
   }
-  
 }

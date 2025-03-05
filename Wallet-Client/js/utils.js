@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM fully loaded - utils.js initialized');
   
   const burger = document.querySelector('.burger-menu');
   const nav = document.querySelector('nav ul');
@@ -16,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Logout button found, adding click listener');
       logoutBtn.addEventListener('click', logout);
   }
+
+  showWalletLink()
 });
 
 function showMessage(message, type = 'info') {
@@ -38,7 +39,6 @@ function showMessage(message, type = 'info') {
 }
 
 function logout() {
-  console.log('Logout function called');
   localStorage.removeItem('authToken');
   localStorage.removeItem('userData');
   window.location.href = 'sign-in.html';
@@ -50,4 +50,15 @@ function checkAuthStatus(page_name) {
   if (!authToken) {
       window.location.href = page_name;
   }
+}
+
+function showWalletLink(){
+  const showWalletLink = document.getElementById("signed_in")
+  const authToken = localStorage.getItem('authToken');
+  if (authToken) {
+     showWalletLink.style.display = "normal" ;
+  } else{
+    showWalletLink.style.display = "none"
+  }
+  
 }

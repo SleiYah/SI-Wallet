@@ -55,7 +55,7 @@ function checkAuthStatus(page_name) {
 function showUserElements() {
   const authToken = localStorage.getItem('authToken');
 
-  const loggedInElements = document.querySelectorAll(".signed_in"); 
+  const loggedInElements = document.querySelectorAll(".signed-in"); 
   const authButtons = document.querySelectorAll(".auth-buttons"); 
 
   if (authToken) {

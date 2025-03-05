@@ -16,7 +16,7 @@
       
 
       <div class="actions">
-        <button class="login-btn">
+        <button class="login-btn" id="login-page-btn">
           <p>Login</p>
         </button>
       </div>
@@ -24,7 +24,7 @@
     <main class="sign-up-box height-normal">
       <section class="section-form">
         <h2>Sign Up!</h2>
-        <form>
+        <form class="signup-form">
           <div class="sign-up-input-box">
             <label>First Name:</label>
             <input id="firstname" type="text" placeholder="First Name" />
@@ -47,7 +47,7 @@
             <input id="password" type="password" placeholder="Password" />
           </div>
           <div class="actions">
-            <button class="signup-btn">
+            <button class="signup-btn" id="signup-page-btn">
               <p>Sign up</p>
             </button>
             </div>
@@ -83,5 +83,12 @@
       </div>
       </div>
       </footer>
+      <script src="js/axios.min.js"></script>
+      <script src="js/utils.js"></script>
+      <script src="js/sign-up.js"></script>
+      <div id="message-container" class="message-container">
+        <span id="message-text"></span>
+      </div>
+
   </body>
 </html>

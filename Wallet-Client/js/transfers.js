@@ -1,4 +1,3 @@
-// Wallet & Transfer Management
 document.addEventListener('DOMContentLoaded', function() {
   checkAuthStatus();
   
@@ -34,7 +33,7 @@ function loadSelectedWallet() {
   }
   
   if (!selectedWalletId) {
-      console.log('No wallet ID in localStorage, loading default wallet');
+      
       
       axios.post(
           'http://localhost/projects/SI-Wallet/Wallet-Server/wallets/v1/get-wallet-byId.php',
@@ -145,6 +144,7 @@ function displaySelectedWallet(walletData) {
           </div>
       </div>
       <div class="card-footer">
+                      <div class="wallet-id">ID: ${wallet.wallet_id}</div>
           <div class="card-type">${wallet.card_type || 'CARD'}</div>
       </div>
   `;
@@ -180,7 +180,6 @@ function toggleCardDetails(element) {
   }
 }
 
-// Load all wallets as a fallback
 function loadAllWallets(authToken) {
   axios.post(
       'http://localhost/projects/SI-Wallet/Wallet-Server/wallets/v1/get-wallet-byId.php',
@@ -274,111 +273,100 @@ function toggleSchedule(checkbox) {
   }
 }
 
-async function submitTransfer(type) {
-  const authToken = localStorage.getItem('authToken');
-  const walletId = document.body.dataset.currentWalletId;
-  
-  if (!authToken) {
-      showMessage('Authentication token not found. Please login again.', 'error');
-      return;
-  }
-  
-  if (!walletId) {
-      showMessage('No wallet selected', 'error');
-      return;
-  }
+function submitTransfer(type) {
+    const authToken = localStorage.getItem('authToken');
+    const walletId = document.body.dataset.currentWalletId;
+    
+    if (!authToken) {
+        showMessage('Authentication token not found. Please login again.', 'error');
+        return;
+    }
+    
+    if (!walletId) {
+        showMessage('No wallet selected', 'error');
+        return;
+    }
 
-  let transferData = {
-      wallet_id: walletId,
-      transaction_type: type
-  };
-  
-  if (type === 'withdraw') {
-      transferData.amount = document.getElementById('withdraw-amount').value;
-      transferData.note = document.getElementById('withdraw-note').value || '';
-  } else if (type === 'deposit') {
-      transferData.amount = document.getElementById('deposit-amount').value;
-      transferData.note = document.getElementById('deposit-note').value || '';
-  } else if (type === 'p2p') {
-      const usernameForm = document.getElementById('p2p-username');
-      const qrForm = document.getElementById('p2p-qr');
-      
-      if (!usernameForm.classList.contains('disp-none')) {
-          const amount = usernameForm.querySelector('#p2p-amount').value;
-          const note = usernameForm.querySelector('#p2p-note').value || '';
-          const recipientUsername = usernameForm.querySelector('#p2p-recipient').value;
-          
-          if (!recipientUsername) {
-              showMessage('Please enter a recipient username', 'error');
-              return;
-          }
-          
-          const scheduleTransfer = usernameForm.querySelector('#schedule-transfer:checked');
-          
-          transferData.amount = amount;
-          transferData.note = note;
-          transferData.recipient_username = recipientUsername;
-          
-         
-          try {
-              const recipientWalletId = await getUserWalletId(recipientUsername);
-              if (!recipientWalletId) {
-                  return; 
-              }
-              transferData.to_wallet_id = recipientWalletId;
-              
-              if (scheduleTransfer) {
-                  const scheduleDate = usernameForm.querySelector('#schedule-date').value;
-                  if (!scheduleDate) {
-                      showMessage('Please select a date for scheduled transfer', 'error');
-                      return;
-                  }
-                  transferData.schedule_date = scheduleDate;
-              }
-          } catch (error) {
-              console.error('Error in P2P transfer:', error);
-              showMessage('Failed to process transfer', 'error');
-              return;
-          }
-      } 
-  }
-  
-  if (!transferData.amount || isNaN(parseFloat(transferData.amount)) || parseFloat(transferData.amount) <= 0) {
-      showMessage('Please enter a valid amount', 'error');
-      return;
-  }
-  
-  axios.post(
-      'http://localhost/projects/SI-Wallet/Wallet-Server/transactions/v1/add-transaction.php',
-      transferData,
-      {
-          headers: {
-              'Authorization': `Bearer ${authToken}`
-          }
-      }
-  )
-  .then(function(response) {
-    console.log("response",response)
-      if (response.data.success) {
-          showMessage(response.data.message || 'Transaction completed successfully', 'success');
-          
-          if (response.data.new_balance !== undefined) {
-              document.querySelector('.card-balance').textContent = `Balance: $${parseFloat(response.data.new_balance).toFixed(2)}`;
-          }
-          
-          clearFormFields(type);
-      } else {
-          showMessage(response.data.message || 'Transaction failed', 'error');
-      }
-  })
-  .catch(function(error) {
-      console.error('Error processing transaction:', error);
-      if (error.response && error.response.data && error.response.data.message) {
-          showMessage(error.response.data.message, 'error');
-      } else {
-          showMessage('An error occurred while processing your transaction.', 'error');
-      }
-  });
+    let transferData = {
+        wallet_id: walletId,
+        transaction_type: type
+    };
+    
+    if (type === 'withdraw') {
+        transferData.amount = document.getElementById('withdraw-amount').value;
+        transferData.note = document.getElementById('withdraw-note').value || '';
+    } else if (type === 'deposit') {
+        transferData.amount = document.getElementById('deposit-amount').value;
+        transferData.note = document.getElementById('deposit-note').value || '';
+    } else if (type === 'p2p') {
+        const usernameForm = document.getElementById('p2p-username');
+        const qrForm = document.getElementById('p2p-qr');
+        
+        if (!usernameForm.classList.contains('disp-none')) {
+            const amount = usernameForm.querySelector('#p2p-amount').value;
+            const note = usernameForm.querySelector('#p2p-note').value || '';
+            const recipientUsername = usernameForm.querySelector('#p2p-recipient').value;
+            const recipientId = usernameForm.querySelector('#recepient-id').value;
+            
+            if (!recipientUsername) {
+                showMessage('Please enter a recipient username', 'error');
+                return;
+            }
+            
+            const scheduleTransfer = usernameForm.querySelector('#schedule-transfer:checked');
+            
+            transferData.amount = amount;
+            transferData.note = note;
+            transferData.recipient_username = recipientUsername;
+            transferData.to_wallet_id = recipientId;
+            
+            if (scheduleTransfer) {
+                const scheduleDate = usernameForm.querySelector('#schedule-date').value;
+                if (!scheduleDate) {
+                    showMessage('Please select a date for scheduled transfer', 'error');
+                    return;
+                }
+                transferData.schedule_date = scheduleDate;
+            }
+        }
+    }
+    
+    if (!transferData.amount || isNaN(parseFloat(transferData.amount)) || parseFloat(transferData.amount) <= 0) {
+        showMessage('Please enter a valid amount', 'error');
+        return;
+    }
+    
+    axios.post(
+        'http://localhost/projects/SI-Wallet/Wallet-Server/transactions/v1/add-transaction.php',
+        transferData,
+        {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        }
+    )
+    .then(function(response) {
+        
+        if (response.data.success) {
+            showMessage(response.data.message || 'Transaction completed successfully', 'success');
+            
+            if (response.data.new_balance !== undefined) {
+                document.querySelector('.card-balance').textContent = `Balance: $${parseFloat(response.data.new_balance).toFixed(2)}`;
+            }
+            
+            clearFormFields(type);
+        } else {
+            showMessage(response.data.message || 'Transaction failed', 'error');
+        }
+    })
+    .catch(function(error) {
+        console.error('Error processing transaction:', error);
+        if (error.response && error.response.data && error.response.data.message) {
+            showMessage(error.response.data.message, 'error');
+        } else {
+            showMessage('An error occurred while processing your transaction.', 'error');
+        }
+    });
 }
 
 function clearFormFields(type) {

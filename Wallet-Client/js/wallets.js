@@ -145,6 +145,7 @@ function displayWallets(wallets) {
                 </div>
             </div>
             <div class="card-footer">
+                <div class="wallet-id">ID: ${wallet.wallet_id}</div>
                 <div class="card-type">${wallet.card_type || 'CARD'}</div>
                 <button class="transfer-btn" onclick="openTransferWebPage(${wallet.wallet_id})">Transfer Money</button>
             </div>

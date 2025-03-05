@@ -43,3 +43,11 @@ function logout() {
   localStorage.removeItem('userData');
   window.location.href = 'sign-in.html';
 }
+
+
+function checkAuthStatus(page_name) {
+  const authToken = localStorage.getItem('authToken');
+  if (!authToken) {
+      window.location.href = page_name;
+  }
+}

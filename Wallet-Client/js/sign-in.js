@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded - sign-in.js initialized');
     
     
-    checkAuthStatus();
+    checkAuthStatus("wallets.html");
     
     
     const loginForm = document.getElementById('login-form');
@@ -77,17 +77,6 @@ function handleLogin() {
                 showMessage(response.data.message || 'Login failed', 'error');
             }
         })
-        .catch(function(error) {
-            console.error('Login error:', error);
-            showMessage('An error occurred during login. Please try again.', 'error');
-        });
+        
 }
 
-function checkAuthStatus() {
-    const authToken = localStorage.getItem('authToken');
-    console.log('Auth token found:', !!authToken);
-    
-    if (authToken) {
-        window.location.href = 'wallets.html';
-    }
-}

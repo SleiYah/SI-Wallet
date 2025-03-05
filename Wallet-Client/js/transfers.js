@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  checkAuthStatus();
+  checkAuthStatus("sign-in.html");
   
   loadSelectedWallet();
   
@@ -13,12 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-function checkAuthStatus() {
-  const authToken = localStorage.getItem('authToken');
-  if (!authToken) {
-      window.location.href = 'sign-in.html';
-  }
-}
+
 
 function loadSelectedWallet() {
   const authToken = localStorage.getItem('authToken');
@@ -202,13 +197,7 @@ function loadAllWallets(authToken) {
           }, 1500);
       }
   })
-  .catch(function(error) {
-      console.error('Error loading all wallets:', error);
-      showMessage('Failed to load any wallets. Redirecting...', 'error');
-      setTimeout(() => {
-          window.location.href = 'wallets.html';
-      }, 1500);
-  });
+
 }
 
 async function getUserWalletId(username) {

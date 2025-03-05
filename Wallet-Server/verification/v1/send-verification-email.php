@@ -2,7 +2,7 @@
 include(__DIR__ . "/../../connection/conn.php");
 require __DIR__ . '/../../vendor/autoload.php';
 include(__DIR__ . "/../../models/Users.php");
-
+include(__DIR__ . "/../../utils/jwt-auth.php");
 use PHPMailer\PHPMailer\PHPMailer;
 
 header('Content-Type: application/json');
@@ -62,20 +62,14 @@ function sendVerificationEmail($userId, $email, $name) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
-    $userId = $data['user_id'] ?? null;
-    
-    if (!$userId) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'User ID is required'
-        ]);
-        exit;
-    }
+    $userData = authenticate();
+
+    $userId = $userData->user_id;
     
     $user = new User();
-    $userData = $user->read($userId);
+    $userInfo = $user->read($userId);
     
-    if (!$userData) {
+    if (!$userInfo) {
         echo json_encode([
             'success' => false,
             'message' => 'User not found'
@@ -84,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if($userData['tier'] > 1){
+    if($userInfo['tier'] > 1){
         echo json_encode([
             'success' => false,
             'message' => 'You are already verified'
@@ -94,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $emailSent = sendVerificationEmail(
         $userId,
-        $userData['email'],
-        $userData['first_name'] . ' ' . $userData['last_name']
+        $userInfo['email'],
+        $userInfo['first_name'] . ' ' . $userInfo['last_name']
     );
     
     

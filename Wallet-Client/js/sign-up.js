@@ -84,8 +84,5 @@ function handleSignup() {
                 showMessage(data.message || 'Failed to create account', 'error');
             }
         })
-        .catch(function(error) {
-            console.error('Signup error:', error);
-            showMessage('An error occurred during signup. Please try again later.', 'error');
-        });
+       
 }

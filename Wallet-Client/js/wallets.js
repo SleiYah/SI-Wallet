@@ -56,12 +56,7 @@ function toggleCardDetails(element) {
 
 
 
-function checkAuthStatus() {
-    const authToken = localStorage.getItem('authToken');
-    if (!authToken) {
-        window.location.href = 'sign-in.html';
-    }
-}
+
 
 function loadWallets() {
     const authToken = localStorage.getItem('authToken');
@@ -170,7 +165,6 @@ function updateTotalBalance(wallets) {
     totalBalanceElement.textContent = `$${total.toFixed(2)}`;
 }
 
-// Add new wallet
 function addNewWallet() {
     const authToken = localStorage.getItem('authToken');
     
@@ -184,7 +178,6 @@ function addNewWallet() {
     const expiryDate = document.getElementById('expiry-date').value;
     const cvv = document.getElementById('cvv').value;
     console.log("cardType",cardType)
-    // Basic validation
     if (!cardNumber || !cardType || !expiryDate || !cvv) {
         showMessage('Please fill in all fields', 'error');
         return;
@@ -223,28 +216,19 @@ function addNewWallet() {
             
             loadWallets();
         } else {
-            console.log("response",response.data.message)
             showMessage(response.data.message || 'Failed to create wallet', 'error');
         }
     })
-    .catch(function(error) {
-        console.error('Error creating wallet:', error);
-        showMessage('An error occurred while creating your wallet.', 'error');
-    });
+  
 }
 
 
-// Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    // Check auth status
-    checkAuthStatus();
+    checkAuthStatus("sign-in.html");
     
-    // Load wallets
     loadWallets();
     
-    // Add event listener to logout button
  
-    // Format card number input with spaces
     const cardNumberInput = document.getElementById('card-number');
     if (cardNumberInput) {
         cardNumberInput.addEventListener('input', function() {
@@ -253,7 +237,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 value = value.substr(0, 16);
             }
             
-            // Format with spaces every 4 digits
             let formattedValue = '';
             for (let i = 0; i < value.length; i++) {
                 if (i > 0 && i % 4 === 0) {
@@ -266,7 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Format expiry date input
     const expiryInput = document.getElementById('expiry-date');
     if (expiryInput) {
         expiryInput.addEventListener('input', function() {
@@ -308,17 +290,14 @@ function deleteWallet() {
     )
     .then(function(response) {
         if (response.data.success) {
-            showMessage('Wallet deleted successfully!', 'success');
+            showMessage(response.data.message, 'success');
             closeDeleteModal();
             loadWallets();
         } else {
             showMessage(response.data.message || 'Failed to delete wallet', 'error');
         }
     })
-    .catch(function(error) {
-        console.error('Error deleting wallet:', error);
-        showMessage('An error occurred while deleting your wallet.', 'error');
-    });
+   
 }
 
 

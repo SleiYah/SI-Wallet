@@ -18,7 +18,6 @@ $json_string = file_get_contents('php://input');
 $data = json_decode($json_string, true);
 
 $wallet_id = $data['wallet_id'] ?? null;
-$user_id = $data['user_id'] ?? null;
 $card_number = $data['card_number'] ?? '';
 $card_type = $data['card_type'] ?? null;
 $cvv = $data['cvv'] ?? '';
@@ -26,21 +25,8 @@ $expiry_date = $data['expiry_date'] ?? '';
 $balance = $data['balance'] ?? 0.00;
 
 $userData = authenticate();
-if (!$user_id) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'User ID is required.'
-    ]);
-    exit;
-}
+$user_id = $userData->user_id;
 
-if ($userData->user_id != $user_id) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'You do not have permission to update this wallet'
-    ]);
-    exit;
-}
 $wallet = new Wallet();
 
 if ($wallet_id) {
@@ -81,10 +67,10 @@ if ($wallet_id) {
     }
 } 
 else {
-    if (empty($user_id) || empty($card_number) || empty($card_type) || empty($cvv) || empty($expiry_date)) {
+    if (empty($card_number) || empty($card_type) || empty($cvv) || empty($expiry_date)) {
         echo json_encode([
             'success' => false,
-            'message' => 'User ID, card number, card type, CVV, and expiry date are required.'
+            'message' => 'Card number, card type, CVV, and expiry date are required.'
         ]);
         exit;
     }
@@ -99,9 +85,9 @@ else {
     }
     
     $user = new User();
-    $userData = $user->read($user_id);
+    $userInfo = $user->read($user_id);
     
-    if (!$userData) {
+    if (!$userInfo) {
         echo json_encode([
             'success' => false,
             'message' => 'User not found'
@@ -109,7 +95,7 @@ else {
         exit;
     }
     
-    $user_tier = $userData['tier'];
+    $user_tier = $userInfo['tier'];
     
     if ($user_tier < 3) {
         $wallet_count_query = "SELECT COUNT(*) as wallet_count FROM wallets WHERE user_id = ?";

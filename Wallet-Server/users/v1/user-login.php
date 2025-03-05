@@ -41,14 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     $user = $result->fetch_assoc();
-    
+    $user_id=$user['user_id'];
     if (password_verify($password, $user['password_hash'])) {
+        $token = generateToken($user);
         echo json_encode([
             'success' => true,
             'message' => 'Login successful',
-            'user' => $user
+            'token' => $token
         ]);
-        $token = generateToken($user);
+        
     } else {
         echo json_encode([
             'success' => false,

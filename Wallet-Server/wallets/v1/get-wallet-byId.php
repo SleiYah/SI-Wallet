@@ -6,25 +6,17 @@ include(__DIR__ . "/../../utils/jwt-auth.php");
 header('Content-Type: application/json');
 
 
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode([
         'success' => false,
-        'message' => 'Invalid request method. Only GET requests are allowed.'
+        'message' => 'Invalid request method. Only POST requests are allowed.'
     ]);
     exit;
 }
 $userData = authenticate();
 
 
-if (!isset($_GET['user_id']) || empty($_GET['user_id'])) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'User ID is required'
-    ]);
-    exit;
-}
-
-$userId = $_GET['user_id'];
+$userId = $userData->user_id;
 
 
 if ($userData->user_id != $userId) {
@@ -35,7 +27,11 @@ if ($userData->user_id != $userId) {
     exit;
 }
 
-$query = "SELECT * FROM wallets WHERE user_id = ?";
+
+$query = "SELECT w.*, u.first_name, u.last_name 
+          FROM wallets w
+          JOIN users u ON w.user_id = u.user_id
+          WHERE w.user_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $userId);
 $stmt->execute();

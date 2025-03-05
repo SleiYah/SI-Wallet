@@ -314,7 +314,6 @@
 .card-number {
   font-size: 1.2em;
   letter-spacing: 2px;
-  margin-bottom: 0.8em;
   cursor: pointer;
 }
 
@@ -421,6 +420,31 @@
   color: #ffffff;
 }
 
+.wallet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Delete button styling */
+.delete-wallet-btn {
+  background: none;
+  border: none;
+  color: #ff6347;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 5px;
+}
+
+.delete-wallet-btn:hover {
+  color: #ff4500;
+}
+
+/* Modal content styling */
+.modal-content {
+  text-align: center;
+  font-size: 1.1em;
+}
 /* WALLET PAGE END */
   /* TRANSFER PAGE */
   .transfer-forms h2,.profile-section h2 {

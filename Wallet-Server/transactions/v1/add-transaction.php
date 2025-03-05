@@ -4,6 +4,7 @@ include(__DIR__ . "/../../models/p2p_transactions.php");
 include(__DIR__ . "/../../models/wallets.php");
 include(__DIR__ . "/../../models/scheduled_transactions.php");
 include(__DIR__ . "/../../connection/conn.php");
+include(__DIR__ . "/../../utils/jwt-auth.php");
 
 header('Content-Type: application/json');
 

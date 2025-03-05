@@ -11,6 +11,6 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-
+echo "test";
 
 ?>

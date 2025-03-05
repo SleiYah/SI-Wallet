@@ -170,6 +170,8 @@ function addNewWallet() {
     
     if (!authToken) {
         showMessage('Authentication token not found. Please login again.', 'error');
+        localStorage.removeItem('authToken');
+
         return;
     }
     
@@ -225,7 +227,6 @@ function addNewWallet() {
 
 document.addEventListener('DOMContentLoaded', function() {
     checkAuthStatus("sign-in.html");
-    
     loadWallets();
     
  

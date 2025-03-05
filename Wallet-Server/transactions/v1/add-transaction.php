@@ -255,21 +255,31 @@ if ($transaction_type === 'p2p') {
 }
 
 if ($is_scheduled) {
+    $newSourceBalance = $sourceWallet['balance'] - $amount;
+    $sourceWalletData = ['balance' => $newSourceBalance];
+    
+    if (!$wallet->update($wallet_id, $sourceWalletData)) {
+        $transaction->delete($transaction_id);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Failed to update source wallet balance'
+        ]);
+        exit;
+    }
+    
     $scheduled_transaction = new Scheduled_Transaction();
     $schedule_id = $scheduled_transaction->create($transaction_id, $formatted_schedule_date);
-
-
-
+        
     echo json_encode([
         'success' => true,
-        'message' => 'Transaction scheduled successfully',
+        'message' => 'Transaction scheduled successfully.',
         'transaction_id' => $transaction_id,
         'schedule_id' => $schedule_id,
-        'schedule_date' => $formatted_schedule_date
+        'schedule_date' => $formatted_schedule_date,
+        'new_balance' => $newSourceBalance
     ]);
     exit;
 }
-
 $newBalance = 0;
 
 

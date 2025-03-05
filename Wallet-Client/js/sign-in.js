@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded - sign-in.js initialized');
     
     
-    checkAuthStatus("wallets.html");
     
     
     const loginForm = document.getElementById('login-form');

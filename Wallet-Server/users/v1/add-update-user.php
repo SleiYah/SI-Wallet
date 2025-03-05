@@ -1,6 +1,7 @@
 <?php
 include("../../models/users.php");
 include(__DIR__ . "/../../connection/conn.php");
+include(__DIR__ . "/../../utils/jwt-auth.php"); // Added JWT auth
 
 header('Content-Type: application/json');
 
@@ -15,12 +16,34 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $json_string = file_get_contents('php://input');
 $data = json_decode($json_string, true);
 
-$user_id = $data['user_id'] ?? null;
+$operation = $data['operation'] ?? '';
+
+if (!in_array($operation, ['add', 'update'])) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid operation. Must be either "add" or "update".'
+    ]);
+    exit;
+}
+
 $firstName = $data['first_name'] ?? '';
 $lastName = $data['last_name'] ?? '';
 $email = $data['email'] ?? '';
 $username = $data['username'] ?? '';
 $password = $data['password'] ?? '';
+
+$user_id = null;
+if ($operation === 'update') {
+    $jwt_data = authenticate();
+    if (!$jwt_data) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Authentication failed. Please login again.'
+        ]);
+        exit;
+    }
+    $user_id = $jwt_data->user_id;
+}
 
 if (empty($firstName) || empty($lastName) || empty($email) || empty($username)) {
     echo json_encode([
@@ -42,7 +65,8 @@ function checkEmailExists($conn, $email) {
         return $result->fetch_assoc();
     } else {
         return false;
-    }}
+    }
+}
 
 function checkUsernameExists($conn, $username) {
     $query = "SELECT * FROM users WHERE username = ?";
@@ -69,7 +93,7 @@ if (!empty($password)) {
 }
 
 
-if ($user_id) {
+if ($operation === 'update') {
     $existingUser = $user->read($user_id);
     if (!$existingUser) {
         echo json_encode([
@@ -116,7 +140,7 @@ if ($user_id) {
         ]);
     }
 } 
-else {
+else { 
     if (empty($password)) {
         echo json_encode([
             'success' => false,

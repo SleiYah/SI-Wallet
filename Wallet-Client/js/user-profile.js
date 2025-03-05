@@ -8,8 +8,6 @@ function showProfileSection(sectionId) {
   document.getElementById(sectionId + "-section").classList.remove("disp-none");
 }
 
-
-
 function loadUserProfile() {
   const authToken = localStorage.getItem('authToken');
   
@@ -131,12 +129,156 @@ function sendVerificationEmail() {
   });
 }
 
+// USER INFORMATION UPDATE
+function updateUserProfile(event) {
+  event.preventDefault();
+  
+  const updateButton = event.target.querySelector('.submit-btn');
+  updateButton.disabled = true;
+  
+  const authToken = localStorage.getItem('authToken');
+  
+  if (!authToken) {
+    showMessage('Authentication token not found. Please login again.', 'error');
+    updateButton.disabled = false;
+    updateButton.textContent = 'Save Changes';
+    return;
+  }
+  
+  const userData = {
+    first_name: document.getElementById('first_name').value,
+    last_name: document.getElementById('last_name').value,
+    username: document.getElementById('username').value,
+    email: document.getElementById('email').value,
+    operation: "update"
+  };
+  
+  if (!userData.first_name || !userData.last_name || !userData.username || !userData.email) {
+    showMessage('All fields are required', 'error');
+    updateButton.disabled = false;
+    updateButton.textContent = 'Save Changes';
+    return;
+  }
+  console.log("userData",userData)
+  axios.post(
+    'http://localhost/projects/SI-Wallet/Wallet-Server/users/v1/add-update-user.php',
+    userData,
+    {
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    }
+  )
+  .then(function(response) {
+    if (response.data.success) {
+      showMessage('Profile updated successfully!', 'success');
+    } else {
+      showMessage(response.data.message || 'Failed to update profile', 'error');
+    }
+  })
+  .catch(function(error) {
+    console.error('Error updating profile:', error);
+    
+    if (error.response && error.response.status === 401) {
+      showMessage('Your session has expired. Please login again.', 'error');
+      localStorage.removeItem('authToken');
+      setTimeout(function() {
+        window.location.href = 'sign-in.html';
+      }, 1500);
+    } else {
+      showMessage('An error occurred while updating your profile.', 'error');
+    }
+  })
+
+}
+// UPDATE PASSWORD FUNCTION
+function updatePassword(event) {
+  event.preventDefault();
+  
+  const updateButton = event.target.querySelector('.submit-btn');
+
+  
+  const authToken = localStorage.getItem('authToken');
+  
+  if (!authToken) {
+    showMessage('Authentication token not found. Please login again.', 'error');
+    updateButton.disabled = false;
+    updateButton.textContent = 'Change Password';
+    return;
+  }
+  
+  const currentPassword = document.getElementById('current-password').value;
+  const newPassword = document.getElementById('new-password').value;
+  const confirmPassword = document.getElementById('confirm-password').value;
+  
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    showMessage('All password fields are required', 'error');
+    updateButton.disabled = false;
+    updateButton.textContent = 'Change Password';
+    return;
+  }
+  
+  if (newPassword !== confirmPassword) {
+    showMessage('New passwords do not match', 'error');
+    updateButton.disabled = false;
+    updateButton.textContent = 'Change Password';
+    return;
+  }
+  
+  axios.post(
+    'http://localhost/projects/SI-Wallet/Wallet-Server/users/v1/update-password.php',
+    {
+      current_password: currentPassword,
+      new_password: newPassword
+    },
+    {
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    }
+  )
+  .then(function(response) {
+    if (response.data.success) {
+      showMessage('Password updated successfully!', 'success');
+      document.getElementById('current-password').value = '';
+      document.getElementById('new-password').value = '';
+      document.getElementById('confirm-password').value = '';
+    } else {
+      showMessage(response.data.message || 'Failed to update password', 'error');
+    }
+  })
+  .catch(function(error) {
+    console.error('Error updating password:', error);
+    
+    if (error.response && error.response.status === 401) {
+      showMessage('Your session has expired. Please login again.', 'error');
+      localStorage.removeItem('authToken');
+      setTimeout(function() {
+        window.location.href = 'sign-in.html';
+      }, 1500);
+    } else {
+      showMessage('An error occurred while updating your password.', 'error');
+    }
+  })
+ 
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   console.log('User profile page loaded');
   
   checkAuthStatus("sign-in.html");
   
   loadUserProfile();
+  
+  const personalForm = document.querySelector('#personal-section form');
+  if (personalForm) {
+    personalForm.addEventListener('submit', updateUserProfile);
+  }
+  
+  const securityForm = document.querySelector('#security-section form');
+  if (securityForm) {
+    securityForm.addEventListener('submit', updatePassword);
+  }
   
   const verifyEmailBtn = document.getElementById('verify-email-btn');
   if (verifyEmailBtn) {

@@ -54,17 +54,14 @@ function handleSignup() {
         return;
     }
     
-    if (password.length < 8) {
-        showMessage('Password must be at least 8 characters long', 'error');
-        return;
-    }
     
     const userData = {
         first_name: firstName,
         last_name: lastName,
         email: email,
         username: username,
-        password: password
+        password: password,
+        operation:"add"
     };
     
     

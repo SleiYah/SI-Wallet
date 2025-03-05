@@ -26,10 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['token'])) {
     $updateStmt->execute();
     
     if ($updateStmt->affected_rows > 0) {
-        echo json_encode([
-            'success' => true,
-            'message' => 'Email verified successfully! Your account has been upgraded.'
-        ]);
+        echo 
+            'Email verified successfully! Your account has been upgraded.
+            Please go back and refresh your page!';
+       
     } else {
         echo json_encode([
             'success' => false,

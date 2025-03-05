@@ -41,7 +41,6 @@ function showMessage(message, type = 'info') {
 
 function logout() {
   localStorage.removeItem('authToken');
-  localStorage.removeItem('userData');
   window.location.href = 'sign-in.html';
 }
 

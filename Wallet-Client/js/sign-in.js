@@ -64,7 +64,6 @@ function handleLogin() {
             
             if (response.data.success) {
                 localStorage.setItem('authToken', response.data.token);
-                localStorage.setItem('userData', JSON.stringify(response.data.user));
                 
                 showMessage('Login successful! Redirecting...', 'success');
                 

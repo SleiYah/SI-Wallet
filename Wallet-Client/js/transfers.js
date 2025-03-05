@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (logoutBtn) {
       logoutBtn.addEventListener('click', function() {
           localStorage.removeItem('authToken');
-          localStorage.removeItem('userData');
           window.location.href = 'sign-in.html';
       });
   }
@@ -57,7 +56,6 @@ function loadSelectedWallet() {
           if (error.response && error.response.status === 401) {
               showMessage('Your session has expired. Please login again.', 'error');
               localStorage.removeItem('authToken');
-              localStorage.removeItem('userData');
               setTimeout(() => {
                   window.location.href = 'sign-in.html';
               }, 1500);
@@ -96,7 +94,6 @@ function loadSelectedWallet() {
       if (error.response && error.response.status === 401) {
           showMessage('Your session has expired. Please login again.', 'error');
           localStorage.removeItem('authToken');
-          localStorage.removeItem('userData');
           setTimeout(() => {
               window.location.href = 'sign-in.html';
           }, 1500);

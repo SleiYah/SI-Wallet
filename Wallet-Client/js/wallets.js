@@ -92,7 +92,6 @@ function loadWallets() {
         if (error.response && error.response.status === 401) {
             showMessage('Your session has expired. Please login again.', 'error');
             localStorage.removeItem('authToken');
-            localStorage.removeItem('userData');
             setTimeout(function() {
                 window.location.href = 'sign-in.html';
             }, 1500);

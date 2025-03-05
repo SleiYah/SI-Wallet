@@ -1,9 +1,9 @@
 <?php
 include(__DIR__ . "/../../connection/conn.php");
 require __DIR__ . '/../../vendor/autoload.php';
+include(__DIR__ . "/../../models/Users.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 header('Content-Type: application/json');
 
@@ -18,10 +18,10 @@ function sendVerificationEmail($userId, $email, $name) {
     $updateStmt->bind_param("si", $token, $userId);
     $updateStmt->execute();
     
-    $verifyLink = "http://192.168.1.12/projects/SI-Wallet/Wallet-Server/verification/v1/verify-email.php?token=" . $token;
+    $verifyLink = "http://192.168.146.72/projects/SI-Wallet/Wallet-Server/verification/v1/verify-email.php?token=" . $token;
     
     $mail = new PHPMailer(true);
-    try {
+   
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';  
         $mail->SMTPAuth = true;
@@ -45,12 +45,19 @@ function sendVerificationEmail($userId, $email, $name) {
             </html>
         ";
         
-        $mail->send();
-        return true;
-    } catch (Exception $e) {
-        return false;
+       if($mail->send()){
+        echo json_encode([
+            'success' => true,
+            'message' => 'Verification Email sent'
+        ]);
+       
+       } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Failed to send verification email'
+        ]);
     }
-}
+    }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
@@ -65,23 +72,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    $query = "SELECT * FROM users WHERE user_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $user = new User();
+    $userData = $user->read($userId);
     
-    if ($result->num_rows === 0) {
+    if (!$userData) {
         echo json_encode([
             'success' => false,
             'message' => 'User not found'
         ]);
         exit;
     }
-    $user = $result->fetch_assoc();
 
 
-    if($user['tier'] > 1){
+    if($userData['tier'] > 1){
         echo json_encode([
             'success' => false,
             'message' => 'You are already verified'
@@ -91,21 +94,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $emailSent = sendVerificationEmail(
         $userId,
-        $user['email'],
-        $user['first_name'] . ' ' . $user['last_name']
+        $userData['email'],
+        $userData['first_name'] . ' ' . $userData['last_name']
     );
     
-    if ($emailSent) {  
-        echo json_encode([
-            'success' => true,
-            'message' => 'Verification email sent'
-        ]);
-    } else {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Failed to send verification email'
-        ]);
-    }
+    
 }
 
 

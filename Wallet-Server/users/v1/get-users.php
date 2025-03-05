@@ -17,13 +17,6 @@ $user = new User();
 if (isset($_GET['user_id']) && !empty($_GET['user_id'])) {
     $userId = $_GET['user_id'];
     
-    if (!is_numeric($userId)) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Invalid user ID format'
-        ]);
-        exit;
-    }
     
     $userData = $user->read($userId);
     

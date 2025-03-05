@@ -1,34 +1,26 @@
 <?php
 include(__DIR__ . "/../../connection/conn.php");
-include(__DIR__ . "/../../utils/jwt-auth.php");
+
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
     
-    $email = $data['email'] ?? '';
     $username = $data['username'] ?? '';
     $password = $data['password'] ?? '';
     
-    if ((empty($email) && empty($username)) || empty($password)) {
+    if (empty($username) || empty($password)) {
         echo json_encode([
             'success' => false,
-            'message' => 'Email/username and password are required'
+            'message' => 'Username and password are required'
         ]);
         exit;
     }
     
-    if (!empty($email)) {
-        $query = "SELECT * FROM users WHERE email = ?";
-        $param = $email;
-    } else {
-        $query = "SELECT * FROM users WHERE username = ?";
-        $param = $username;
-    }
-    
+    $query = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $param);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
     
@@ -41,15 +33,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     $user = $result->fetch_assoc();
-    $user_id=$user['user_id'];
+    
+    if ($user['tier'] != 0) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Access denied. User is not an administrator.'
+        ]);
+        exit;
+    }
+    
     if (password_verify($password, $user['password_hash'])) {
-        $token = generateToken($user);
         echo json_encode([
             'success' => true,
-            'message' => 'Login successful',
-            'token' => $token
+            'message' => 'Admin login successful',
+            'user' => $user
         ]);
-        
     } else {
         echo json_encode([
             'success' => false,

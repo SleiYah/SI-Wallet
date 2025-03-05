@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../../axios.min.js"></script>
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/styles.css" />
     <link
@@ -31,7 +30,7 @@
         </section>
       <section class="section-form">
         <h2>Sign In!</h2>
-        <form>
+        <form id="login-form" onsubmit="return false;">
           <div class="sign-up-input-box">
             <label>Username/Email:</label>
             <input id="username" type="text" placeholder="Username or email" />
@@ -41,9 +40,10 @@
             <input id="password" type="password" placeholder="Password" />
           </div>
           <div class="actions">
-            <button class="login-btn">
+            <button class="login-btn" type="submit" id="login-button" onclick="handleLogin()">
               <p>Sign In</p>
             </button>
+            </div>
         </form>
       </section>
       
@@ -73,5 +73,11 @@
       </div>
       </div>
       </footer>
+      <script src="js/axios.min.js"></script>
+      <script src="js/sign-in.js"></script>
+      <script src="js/utils.js"></script>
+      <div id="message-container" class="message-container">
+        <span id="message-text"></span>
+      </div>
   </body>
 </html>

@@ -24,7 +24,7 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="wallets.html">My Wallets</a></li>
-          <li><a href="transfer.html" class="active">Transfer</a></li>
+          <li><a href="transfer-page.html" class="active">Transfer</a></li>
           <li><a href="transaction-history.html">Transactions</a></li>
           <li><a href="user-profile.html">Profile</a></li>
           <li><a href="help-center.html">Support</a></li>
@@ -41,38 +41,10 @@
     <main class="main-container">
       <h1 class="h1-page-title">Transfer Money</h1>
 
+      <!-- This div will be populated by the script with the selected wallet data -->
       <div class="wallets-container">
         <div>
-          <p
-            class="card-number"
-            onclick="toggleCardDetails(this)"
-            data-number="1234 5678 9012 4567"
-          >
-            **** **** **** 4567
-          </p>
-          <p class="card-balance">Balance: $5,230.45</p>
-          <div class="card-details">
-            <div class="card-holder">
-              <span class="card-label">Card Holder</span>
-              <span class="value">John Doe</span>
-            </div>
-            <div class="card-expires">
-              <span class="card-label">Expires</span>
-              <span class="value">12/25</span>
-            </div>
-            <div class="cvv">
-              <span class="card-label">CVV</span>
-              <span
-                class="cvv-value"
-                onclick="toggleCardDetails(this)"
-                data-cvv="123"
-                >***</span
-              >
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="card-type">VISA</div>
-          </div>
+          <!-- Wallet data will be loaded here dynamically -->
         </div>
       </div>
 
@@ -91,7 +63,6 @@
       <!-- TRANSFER FORMS -->
       <div class="transfer-forms">
         <!-- WITHDRAW -->
-
         <form
           id="withdraw-form"
           class="normal flex-col sign-up-box disp-none transfer-form height-normal"
@@ -105,15 +76,6 @@
             </div>
 
             <div class="sign-up-input-box form-box-font-size">
-              <label for="withdraw-bank-name">Bank Name</label>
-              <input
-                type="text"
-                id="withdraw-bank-name"
-                placeholder="Enter your bank name"
-              />
-            </div>
-
-            <div class="sign-up-input-box form-box-font-size">
               <label for="withdraw-note">Note (Optional)</label>
               <input
                 type="text"
@@ -122,7 +84,7 @@
               />
             </div>
             <div class="actions">
-              <button class="submit-btn" onclick="submitTransfer('withdraw')">
+              <button type="button" class="submit-btn" onclick="submitTransfer('withdraw')">
                 Withdraw Funds
               </button>
             </div>
@@ -130,7 +92,6 @@
         </form>
 
         <!-- DEPOSIT -->
-
         <form
           id="deposit-form"
           class="normal flex-col sign-up-box disp-none transfer-form height-normal"
@@ -143,14 +104,6 @@
               <input type="text" id="deposit-amount" placeholder="0.00" />
             </div>
 
-            <div class="sign-up-input-box form-box-font-size">
-              <label for="deposit-method">Deposit Method</label>
-              <select id="deposit-method">
-                <option value="credit-card">Credit/Debit Card</option>
-                <option value="bank-transfer">Bank Transfer</option>
-                <option value="paypal">PayPal</option>
-              </select>
-            </div>
 
             <div class="sign-up-input-box form-box-font-size">
               <label for="deposit-note">Note (Optional)</label>
@@ -161,7 +114,7 @@
               />
             </div>
             <div class="actions">
-              <button class="submit-btn" onclick="submitTransfer('deposit')">
+              <button type="button" class="submit-btn" onclick="submitTransfer('deposit')">
                 Deposit Funds
               </button>
             </div>
@@ -176,10 +129,10 @@
           <h2>P2P Transfer</h2>
 
           <div class="transfer-options">
-            <button class="p2p-option" onclick="showP2POption('username')">
+            <button type="button" class="p2p-option" onclick="showP2POption('username')">
               By Username
             </button>
-            <button class="p2p-option" onclick="showP2POption('qr')">
+            <button type="button" class="p2p-option" onclick="showP2POption('qr')">
               By QR Code
             </button>
           </div>
@@ -221,14 +174,14 @@
                 <label for="schedule-transfer">Schedule this transfer</label>
               </div>
 
-              <div id="schedule-container" class="schedule-container flex-col">
+              <div class="schedule-container flex-col" style="display: none;">
                 <div class="sign-up-input-box form-box-font-size">
                   <label for="schedule-date">Transfer Date</label>
                   <input type="date" id="schedule-date" />
                 </div>
               </div>
               <div class="actions">
-                <button class="submit-btn" onclick="submitTransfer('p2p')">
+                <button type="button" class="submit-btn" onclick="submitTransfer('p2p')">
                   Send Money
                 </button>
               </div>
@@ -243,33 +196,33 @@
             <div class="transfer-form-container">
               <p>Scan QR code to send money</p>
               <div class="sign-up-input-box form-box-font-size">
-                <label for="p2p-amount">Amount</label>
-                <input type="text" id="p2p-amount" placeholder="0.00" />
+                <label for="qr-p2p-amount">Amount</label>
+                <input type="text" id="qr-p2p-amount" placeholder="0.00" />
               </div>
               <div class="sign-up-input-box form-box-font-size">
-                <label for="p2p-note">Note (Optional)</label>
+                <label for="qr-p2p-note">Note (Optional)</label>
                 <input
                   type="text"
-                  id="p2p-note"
+                  id="qr-p2p-note"
                   placeholder="Add a note for this transaction"
                 />
               </div>
               <div class="checkbox-container">
                 <input
                   type="checkbox"
-                  id="schedule-transfer"
+                  id="qr-schedule-transfer"
                   onchange="toggleSchedule(this)"
                 />
-                <label for="schedule-transfer">Schedule this transfer</label>
+                <label for="qr-schedule-transfer">Schedule this transfer</label>
               </div>
-              <div id="schedule-container" class="schedule-container flex-col">
+              <div class="schedule-container flex-col" style="display: none;">
                 <div class="sign-up-input-box form-box-font-size">
-                  <label for="schedule-date">Transfer Date</label>
-                  <input type="date" id="schedule-date" />
+                  <label for="qr-schedule-date">Transfer Date</label>
+                  <input type="date" id="qr-schedule-date" />
                 </div>
               </div>
               <div class="actions">
-                <button class="submit-btn" onclick="submitTransfer('p2p')">
+                <button type="button" class="submit-btn" onclick="submitTransfer('p2p')">
                   Send Money
                 </button>
               </div>
@@ -304,8 +257,14 @@
       </div>
     </footer>
 
-    <script src="js/wallets.js"></script>
-    <script src="js/transfers.js"></script>
+    <!-- Message container for notifications -->
+    <div id="message-container" class="message-container">
+      <span id="message-text"></span>
+    </div>
+
+    <!-- Script imports -->
+    <script src="js/axios.min.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/transfers.js"></script>
   </body>
 </html>

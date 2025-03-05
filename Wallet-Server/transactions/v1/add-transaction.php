@@ -4,6 +4,7 @@ include(__DIR__ . "/../../models/p2p_transactions.php");
 include(__DIR__ . "/../../models/wallets.php");
 include(__DIR__ . "/../../models/scheduled_transactions.php");
 include(__DIR__ . "/../../connection/conn.php");
+include(__DIR__ . "/../../utils/jwt-auth.php");
 
 header('Content-Type: application/json');
 
@@ -17,9 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 
+
 $json_string = file_get_contents('php://input');
 $data = json_decode($json_string, true);
 
+$userData = authenticate();
 
 $wallet_id = $data['wallet_id'] ?? null;
 $note = $data['note'] ?? '';

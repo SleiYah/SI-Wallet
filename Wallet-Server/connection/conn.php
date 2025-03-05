@@ -5,7 +5,7 @@ header('Access-Control-Allow-Methods: GET, OPTIONS, POST');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
    
-    $conn = new mysqli("localhost", "root", "", "si_wallet_db");
+    $conn = new mysqli("localhost", "root", '$l3iyah', "si_wallet_db");
 
 
 if ($conn->connect_error) {

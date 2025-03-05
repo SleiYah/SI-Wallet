@@ -23,21 +23,18 @@ function showMessage(message, type = 'info') {
       setTimeout(function() {
           messageContainer.style.display = 'none';
       }, 3000);
-  } else {
-      console.warn('Message container or text element not found in the DOM');
   }
 }
 
 function logout() {
-  localStorage.removeItem('adminAuthToken');
-  localStorage.removeItem('adminData');
+  localStorage.removeItem('authToken');
   window.location.href = 'index.html';
 }
 
 
 function checkAuthStatus(page_name) {
-  const adminAuthToken = localStorage.getItem('adminAuthToken');
-  if (!adminAuthToken) {
+  const authToken = localStorage.getItem('authToken');
+  if (!authToken) {
       window.location.href = page_name;
   }
 }

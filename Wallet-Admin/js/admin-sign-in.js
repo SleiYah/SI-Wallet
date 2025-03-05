@@ -39,8 +39,7 @@ function handleAdminLogin() {
         .then(function(response) {
             
             if (response.data.success) {
-                localStorage.setItem('adminAuthToken', response.data.token);
-                localStorage.setItem('adminData', JSON.stringify(response.data.user));
+                localStorage.setItem('authToken', response.data.token);
                 
                 showMessage('Admin login successful! Redirecting...', 'success');
                 

@@ -2,6 +2,7 @@
 include(__DIR__ . "/../../models/tickets.php");
 include(__DIR__ . "/../../models/Users.php");
 include(__DIR__ . "/../../connection/conn.php");
+include(__DIR__ . "/../../utils/jwt-auth.php");
 
 header('Content-Type: application/json');
 
@@ -17,18 +18,17 @@ $json_string = file_get_contents('php://input');
 $data = json_decode($json_string, true);
 
 $ticket_id = $data['ticket_id'] ?? null;
-$user_id = $data['user_id'] ?? null;
 $subject = $data['subject'] ?? '';
 $message = $data['message'] ?? '';
 $status = $data['status'] ?? '';
 
+$userData = authenticate();
+$user_id = $userData->user_id;
+
 $ticket = new Ticket();
 $user = new User();
 
-function checkUserExists($user, $user_id) {
-    $userData = $user->read($user_id);
-    return $userData ? true : false;
-}
+
 
 function validateStatus($status) {
     $valid_statuses = ['open', 'in_progress', 'resolved'];
@@ -49,7 +49,7 @@ if ($ticket_id) {
         if (!validateStatus($status)) {
             echo json_encode([
                 'success' => false,
-                'message' => 'Invalid status. Must be "open", "in_progress", or "resolved".'
+                'message' => 'Invalid status. Must be "open" or "resolved".'
             ]);
             exit;
         }
@@ -76,21 +76,14 @@ if ($ticket_id) {
         exit;
     }
 } else {
-    if (empty($user_id) || empty($subject) || empty($message)) {
+    if ( empty($subject) || empty($message)) {
         echo json_encode([
             'success' => false,
-            'message' => 'User ID, subject, and message are required.'
+            'message' => 'Subject and message are required.'
         ]);
         exit;
     }
 
-    if (!checkUserExists($user, $user_id)) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'User not found'
-        ]);
-        exit;
-    }
 
     $ticketData = [
         'user_id' => $user_id,

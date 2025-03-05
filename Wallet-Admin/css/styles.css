@@ -89,3 +89,88 @@
 .type-p2p {
   color: #add8e6;
 }
+
+
+.message-preview {
+  max-width: 200px;
+  max-height: 80px;
+  overflow-y: auto;
+  padding: 5px;
+  white-space: normal;
+  word-break: break-word;
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  
+
+}
+
+.message-preview::-webkit-scrollbar {
+  width: 6px;
+}
+
+.message-preview::-webkit-scrollbar-track {
+  background: #1a1c29;
+  border-radius: 3px;
+}
+
+.message-preview::-webkit-scrollbar-thumb {
+  background-color: #074145;
+  border-radius: 3px;
+}
+
+
+
+.status-open {
+  color: #ff6347;
+  font-weight: bold;
+}
+
+.status-in_progress {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.status-resolved {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+
+
+.ticket-actions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.in-progress-btn {
+  background-color: #3498db;
+}
+
+.resolve-btn {
+  background-color: #2ecc71;
+}
+
+.email-btn {
+  background-color: #9b59b6;
+}
+
+.resolved-tag {
+  display: inline-block;
+  padding: 5px 8px;
+  background-color: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}

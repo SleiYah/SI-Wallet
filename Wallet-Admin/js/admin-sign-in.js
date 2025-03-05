@@ -35,7 +35,7 @@ function handleAdminLogin() {
     };
     
     
-    axios.post('http://localhost/projects/SI-Wallet/Wallet-Server/admin/v1/admin-login.php', loginData)
+    axios.post( baseURL + '/admin/v1/admin-login.php', loginData)
         .then(function(response) {
             
             if (response.data.success) {

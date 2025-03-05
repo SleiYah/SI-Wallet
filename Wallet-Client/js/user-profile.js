@@ -18,7 +18,7 @@ function loadUserProfile() {
   }
   
   axios.post(
-    'http://localhost/projects/SI-Wallet/Wallet-Server/users/v1/get-users-byId.php',
+    baseURL+'/users/v1/get-users-byId.php',
     {},
     {
       headers: {
@@ -90,7 +90,7 @@ function sendVerificationEmail() {
   }
   
   axios.post(
-    'http://localhost/projects/SI-Wallet/Wallet-Server/verification/v1/send-verification-email.php', 
+    baseURL+'/verification/v1/send-verification-email.php', 
     {}, 
     {
       headers: {
@@ -161,7 +161,7 @@ function updateUserProfile(event) {
   }
   console.log("userData",userData)
   axios.post(
-    'http://localhost/projects/SI-Wallet/Wallet-Server/users/v1/add-update-user.php',
+    baseURL+'/users/v1/add-update-user.php',
     userData,
     {
       headers: {
@@ -226,7 +226,7 @@ function updatePassword(event) {
   }
   
   axios.post(
-    'http://localhost/projects/SI-Wallet/Wallet-Server/users/v1/update-password.php',
+    baseURL+'/users/v1/update-password.php',
     {
       current_password: currentPassword,
       new_password: newPassword

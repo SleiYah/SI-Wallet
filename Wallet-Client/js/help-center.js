@@ -35,7 +35,7 @@ function submitTicket() {
   };
   
   axios.post(
-    'http://localhost/projects/SI-Wallet/Wallet-Server/ticket/v1/add-update-ticket.php',
+    baseURL+'/ticket/v1/add-update-ticket.php',
     ticketData,
     {
       headers: {

@@ -1,3 +1,4 @@
+const baseURL = "http://localhost/projects/SI-Wallet/Wallet-Server"
 
 document.addEventListener('DOMContentLoaded', function() {
   

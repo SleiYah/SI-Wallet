@@ -1,3 +1,9 @@
+
+document.addEventListener('DOMContentLoaded', function() {
+  checkAuthStatus("sign-in.html");
+})
+
+
 function showSection(type) {
  
     const faqSection = document.getElementById("faq-section");

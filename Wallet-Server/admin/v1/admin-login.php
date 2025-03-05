@@ -1,7 +1,7 @@
 <?php
 include(__DIR__ . "/../../connection/conn.php");
+include(__DIR__ . "/../../utils/jwt-auth.php");
 
-header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
@@ -33,19 +33,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     $user = $result->fetch_assoc();
-    
+    $user_id = $user['user_id'];
     if ($user['tier'] != 0) {
         echo json_encode([
             'success' => false,
-            'message' => 'Access denied. User is not an administrator.'
+            'message' => 'Access denied. You need administrator privileges.'
         ]);
         exit;
     }
     
     if (password_verify($password, $user['password_hash'])) {
+        $token = generateToken($user);
+        
+        unset($user['password_hash']);
+        
         echo json_encode([
             'success' => true,
             'message' => 'Admin login successful',
+            'token' => $token,
             'user' => $user
         ]);
     } else {
@@ -54,8 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'message' => 'Invalid credentials'
         ]);
     }
-}
-else {
+} else {
     echo json_encode([
         'success' => false,
         'message' => 'Invalid request method. Only POST requests are allowed.'

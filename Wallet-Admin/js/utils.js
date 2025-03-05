@@ -1,23 +1,12 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   
-  const burger = document.querySelector('.burger-menu');
-  const nav = document.querySelector('nav ul');
-  
-  if (burger && nav) {
-      console.log('Burger menu found, adding click listener');
-      burger.addEventListener('click', function() {
-          nav.classList.toggle('active');
-      });
-  }
   
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
       console.log('Logout button found, adding click listener');
       logoutBtn.addEventListener('click', logout);
   }
-
-  showUserElements()
 });
 
 function showMessage(message, type = 'info') {
@@ -40,30 +29,16 @@ function showMessage(message, type = 'info') {
 }
 
 function logout() {
-  localStorage.removeItem('authToken');
-  localStorage.removeItem('userData');
-  window.location.href = 'sign-in.html';
+  localStorage.removeItem('adminAuthToken');
+  localStorage.removeItem('adminData');
+  window.location.href = 'index.html';
 }
 
 
 function checkAuthStatus(page_name) {
-  const authToken = localStorage.getItem('authToken');
-  if (!authToken) {
+  const adminAuthToken = localStorage.getItem('adminAuthToken');
+  if (!adminAuthToken) {
       window.location.href = page_name;
   }
 }
 
-function showUserElements() {
-  const authToken = localStorage.getItem('authToken');
-
-  const loggedInElements = document.querySelectorAll(".signed-in"); 
-  const authButtons = document.querySelectorAll(".auth-buttons"); 
-
-  if (authToken) {
-    loggedInElements.forEach(el => el.style.display = "normal");
-    authButtons.forEach(el => el.style.display = "none");
-  } else {
-    loggedInElements.forEach(el => el.style.display = "none");
-    authButtons.forEach(el => el.style.display = "normal");
-  }
-}

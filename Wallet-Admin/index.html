@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sign In</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <main class="sign-up-box">
+        <section class="section-form">
+            <h2>Admin Sign In</h2>
+            <form id="admin-login-form">
+                <div class="sign-up-input-box">
+                    <label>Username:</label>
+                    <input id="username" type="text" placeholder="Admin username" />
+                </div>
+                <div class="sign-up-input-box">
+                    <label>Password:</label>
+                    <input id="password" type="password" placeholder="Password" />
+                </div>
+                <div class="actions">
+                    <button id="admin-login-button" type="submit" class="login-btn">
+                        <p>Admin Sign In</p>
+                    </button>
+                </div>
+            </form>
+        
+        </section>
+    </main>
+</body>
+<div id="message-container" class="message-container">
+  <span id="message-text"></span>
+</div>
+<script src="js/utils.js"></script>
+<script src="js/axios.min.js"></script>
+<script src="js/admin-sign-in.js"></script>
+</html>

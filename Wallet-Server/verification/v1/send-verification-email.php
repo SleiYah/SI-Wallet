@@ -18,7 +18,7 @@ function sendVerificationEmail($userId, $email, $name) {
     $updateStmt->bind_param("si", $token, $userId);
     $updateStmt->execute();
     
-    $verifyLink = "http://192.168.146.72/projects/SI-Wallet/Wallet-Server/verification/v1/verify-email.php?token=" . $token;
+    $verifyLink = "https://siwalletbackend.zapto.org/SI-Wallet/Wallet-Server/verification/v1/verify-email.php?token=" . $token;
     
     $mail = new PHPMailer(true);
    

@@ -1,9 +1,4 @@
 <?php 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: GET, OPTIONS, POST');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-
-   
     $conn = new mysqli("localhost", "root", '$l3iyah', "si_wallet_db");
 
 
